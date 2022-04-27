@@ -37,7 +37,6 @@ export const Detail: FC<DetailProps> = (props) => {
 
   //(?<zipcode>(^\d{5}|^\d{3})?)(?<city>\D+[縣市])(?<district>\D+?(市區|鎮區|鎮市|[鄉鎮市區]))(?<others>.+)
   const address = detail['醫事機構地址'].trim().split(/(?<zipcode>(^\d{5}|^\d{3})?)(?<city>\D+[縣市])(?<district>\D+?(市區|鎮區|鎮市|[鄉鎮市區]))(?<others>.+)/).filter((item:any)=>item)
-  console.log(address)
   return (
     <SidePanel
       header={<div className='flex gap-1'>
