@@ -53,12 +53,12 @@ export const PositionMarker = (props: any) => {
 
 export const MapMarker: FC<{ marker: any[]; geoJSON:any; setDetail: Dispatch<SetStateAction<any>>; setShowDialog:Dispatch<SetStateAction<boolean>>; }> = (props) => {
   const {marker, geoJSON, setDetail, setShowDialog} = props;
-// .filter((item) => (bounds.contains({lat: item.latitude, lng: item.longitude})))
-  const map = useMap()
+  // const map = useMap()
+  // .filter(item =>
+  // map.getBounds().contains({lat: item['緯度'], lng: item['經度']})
+  // )
   return (<MarkerClusterGroup>
-    {marker.filter(item =>
-      map.getBounds().contains({lat: item['緯度'], lng: item['經度']})
-   ).map((item, index) => <PositionMarker item={item} key={`marker_${index}`} keyIndex={index} setDetail={setDetail}
+    {marker.map((item, index) => <PositionMarker item={item} key={`marker_${index}`} keyIndex={index} setDetail={setDetail}
                                             setShowDialog={setShowDialog} geoJSON={geoJSON}/>)}
   </MarkerClusterGroup>)
 }
