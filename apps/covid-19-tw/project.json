@@ -1,0 +1,74 @@
+{
+  "root": "apps/covid-19-tw",
+  "sourceRoot": "apps/covid-19-tw/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/covid-19-tw",
+        "index": "apps/covid-19-tw/src/index.html",
+        "baseHref": "/",
+        "main": "apps/covid-19-tw/src/main.tsx",
+        "polyfills": "apps/covid-19-tw/src/polyfills.ts",
+        "tsConfig": "apps/covid-19-tw/tsconfig.app.json",
+        "assets": [
+          "apps/covid-19-tw/src/favicon.ico",
+          "apps/covid-19-tw/src/assets",
+          "apps/covid-19-tw/src/locales"
+        ],
+        "styles": ["apps/covid-19-tw/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/covid-19-tw/src/environments/environment.ts",
+              "with": "apps/covid-19-tw/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "covid-19-tw:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "covid-19-tw:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/covid-19-tw/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/covid-19-tw"],
+      "options": {
+        "jestConfig": "apps/covid-19-tw/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

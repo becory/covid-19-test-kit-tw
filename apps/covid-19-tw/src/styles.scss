@@ -1,0 +1,29 @@
+@import '~leaflet/dist/leaflet.css'; // sass
+@import '~react-leaflet-markercluster/dist/styles.min.css'; // sass
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
+
+.marker-cluster{
+    @apply text-black font-bold;
+}
+.marker-cluster-small{
+    @apply bg-blue-300;
+    div{
+        @apply bg-blue-400;
+    }
+}
+
+.marker-cluster-medium{
+    @apply bg-blue-300;
+    div{
+        @apply bg-blue-400;
+    }
+}
+
+.marker-cluster-large{
+    @apply bg-blue-300;
+    div{
+        @apply bg-blue-400;
+    }
+}
