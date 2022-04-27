@@ -1,4 +1,4 @@
-# Taiwan COVID-19 Trace Map
+# Taiwan COVID-19 Test Kit Map
 
 ## Data Source
 

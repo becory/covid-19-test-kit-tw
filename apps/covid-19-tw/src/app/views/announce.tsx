@@ -34,7 +34,7 @@ export const Announce:FC<AnnounceProps> = (props)=>{
             </div>
             <div className="flex md:p-5 gap-3">
               <button className="btn btn-black gap-2" onClick={()=>{
-                window.open("https://github.com/becory/covid-19-tw", "_blank")
+                window.open("https://github.com/becory/covid-19-test-kit-tw", "_blank")
               }}><FontAwesomeIcon icon={faGithub}/>Github</button>
             </div>
           </div>
