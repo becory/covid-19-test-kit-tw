@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "projects": {
-    "covid-19-tw": "apps/covid-19-tw",
-    "covid-19-tw-e2e": "apps/covid-19-tw-e2e",
-    "database": "libs/database",
-    "ui": "libs/ui"
-  }
-}
