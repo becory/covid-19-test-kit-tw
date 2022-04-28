@@ -18,6 +18,8 @@ export const Legend:FC<LegendProps> = (props)=> {
       <li className={`text-green-600`}><FontAwesomeIcon icon={faLocationDot} /> &gt;= 50</li>
       <li className={`text-yellow-600`}><FontAwesomeIcon icon={faLocationDot} /> &gt;= 15</li>
       <li className={`text-red-700`}><FontAwesomeIcon icon={faLocationDot} /> &lt; 15</li>
+      <li className={`text-gray-500`}><FontAwesomeIcon icon={faLocationDot} /> 0</li>
+
     </ul>
     <div>{t("fetchTime")}{updateTime}</div>
   </div>

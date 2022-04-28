@@ -2,18 +2,13 @@ import {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import {SidePanel} from "@covid-19-tw/ui";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-  faBug,
   faClock,
   faDatabase,
   faMapLocation,
-  faQuestionCircle,
-  faTriangleExclamation,
-  faXmark,
-  faChartLine
+  faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {Line} from 'react-chartjs-2'
 import dayjs from "dayjs";
 
 interface DetailProps {
@@ -54,9 +49,9 @@ export const Detail: FC<DetailProps> = (props) => {
     >
       <div className="flex justify-between flex-col gap-5 align-end">
         <div className="border-gray-200 border border-solid rounded-md shadow-lg divide-gray-200 divide-y divide-solid overflow-hidden">
-          <div className="text-base font-bold p-3">
-            <FontAwesomeIcon icon={faClock}
-                             className="text-color-info"/> {t('daysAgo', {day:dayjs().to(detail['來源資料時間'])})}
+          <div className="text-base font-bold p-3 gap-2 flex items-center">
+           <FontAwesomeIcon icon={faClock} className="text-color-info"/> 
+           <div>{detail['來源資料時間']?(t('daysAgo', {day:dayjs().to(detail['來源資料時間']), count: detail[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</div>
           </div>
           <div className="flex flex-col p-5 gap-2">
             <div className="text-xs text-right">
@@ -84,18 +79,18 @@ export const Detail: FC<DetailProps> = (props) => {
                     to={`?keyword=${address[0].trim()}${address[1].trim()}`} key={`address`}>{address[0].trim()}{address[1].trim()}</Link>)}{address[3].trim()}</div>
               </div>
               
-              <div className='col-span-2'><b>{t("brands")}</b>
+              {detail[`廠牌項目`] && <div className='col-span-2'><b>{t("brands")}</b>
                 <div className='break-words ml-4'>{detail[`廠牌項目`]}</div>
-              </div>
-              <div className='col-span-2'><b>{t("quantity")}</b>
+              </div>}
+              {detail[`快篩試劑截至目前結餘存貨數量`] && <div className='col-span-2'><b>{t("quantity")}</b>
                 <div className='break-words ml-4'>{detail[`快篩試劑截至目前結餘存貨數量`]}</div>
-              </div>
+              </div>}
               {detail[`備註`] && <div className='col-span-2'><b>{t("remark")}</b>
                 <div className='break-words ml-4'>{detail[`備註`]}</div>
               </div>}
-              <div className='col-span-2'><b>{t("updateTime")}</b>
+              {detail['來源資料時間'] &&<div className='col-span-2'><b>{t("updateTime")}</b>
                 <div className='break-words ml-4'>{detail['來源資料時間'].format('YYYY-MM-DD HH:mm')}</div>
-              </div>
+              </div>}
               <div><b>{t("latitude")}</b>
                 <div className='break-words ml-4'>{detail['緯度']}</div>
               </div>

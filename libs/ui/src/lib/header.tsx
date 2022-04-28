@@ -5,30 +5,33 @@ import {faFilter, faCrosshairs, faEraser, faEye} from "@fortawesome/free-solid-s
 import {useMap} from "react-leaflet";
 import {useSearchParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import dayjs from 'dayjs'
 
 interface FilterProps {
   keyword: [string, Dispatch<SetStateAction<string>>];
   city: [string, Dispatch<SetStateAction<string>>];
+  showEmpty: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
 interface HeaderProps {
   filter: FilterProps;
   cityList: any[];
   dataLength: number;
+  emptyStoreLength: number;
   children?: ReactNode;
 }
 
 
 
 export const Header: FC<HeaderProps> = (props) => {
-  const {filter, cityList, dataLength, children} = props;
+  const {filter, cityList, dataLength, emptyStoreLength, children} = props;
   const {
     keyword: keywordState,
     city: cityState,
+    showEmpty: showEmptyState
   } = filter;
   const [keyword, setKeyword] = keywordState;
   const [city, setCity] = cityState;
+  const [showEmpty, setShowEmpty] = showEmptyState;
   const [, setSearchParams] = useSearchParams();
   const [openFilter, setOpenFilter] = useState<boolean>(false)
   const divRef = useRef<HTMLDivElement>(null)
@@ -67,7 +70,13 @@ export const Header: FC<HeaderProps> = (props) => {
       <div className="gap-1 flex text-base">
         <div><FontAwesomeIcon icon={faEye}/></div>
         <div>
-          {t('nowDisplay', {dataLength: dataLength})}
+          {t('nowDisplay', {dataLength: dataLength, soldOut: emptyStoreLength})}
+        </div>
+      </div>
+      <div className="gap-1 flex text-base">
+        <div><input type="checkbox" checked={showEmpty} onChange={(e)=>setShowEmpty(e.target.checked)} className="checkbox checkbox-primary checkbox-sm" /></div>
+        <div>
+          {t('displaySoldOut')}
         </div>
       </div>
       <div className="w-full flex justify-between text-xs">

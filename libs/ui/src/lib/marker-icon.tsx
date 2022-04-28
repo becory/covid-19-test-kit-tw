@@ -34,5 +34,12 @@ export const useColorIcon = ()=>{
         iconAnchor: [11, 39],
         popupAnchor: [-2, -25],
     })
+    colorIcon['text-gray-500'] =  divIcon({
+        html: renderToString(<FontAwesomeIcon icon={faLocationDot} className={[`text-gray-500`,"drop-shadow-lg w-full h-auto"].join(" ")} />),
+        className: 'icon',
+        iconSize: [25, 33.33],
+        iconAnchor: [11, 39],
+        popupAnchor: [-2, -25],
+    })
     return colorIcon
 }

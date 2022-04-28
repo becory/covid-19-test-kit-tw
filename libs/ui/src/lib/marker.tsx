@@ -23,23 +23,33 @@ export const LocationMarker = () => {
   )
 }
 
+const setColor = (count:number)=>{
+  if(count>50){
+    return 'text-green-600' ;
+  }
+  if(count>=15){
+    return 'text-green-600';
+  }
+  if(count<15&&count > 0){
+    return 'text-red-700';
+  }
+  return 'text-gray-500'
+}
+
 export const PositionMarker = (props: any) => {
   const colorIcon = useColorIcon();
-  const {item, setDetail, setShowDialog, geoJSON, keyIndex} = props;
+  const {t} = useTranslation();
+  const {item, setDetail, setShowDialog, keyIndex} = props;
   if (!item || !item['緯度']|| !item['經度']) return null
   const position = new LatLng(item['緯度'], item['經度'])
   const count = item[`快篩試劑截至目前結餘存貨數量`]
-  const iconColor = ( count >= 50) ? 'text-green-600' : ((count >=15)? 'text-yellow-600': 'text-red-700')
-  const {t} = useTranslation()
+  const iconColor = setColor(count);
 
   const click = () => {
     // e.stopPropagation()
     if (item) {
-      const markerCity = geoJSON?.features.find((subItem:any)=>(booleanPointInPolygon(point([parseFloat(item['經度']), parseFloat(item['緯度'])]), subItem.geometry)))
       setShowDialog(true)
-      setDetail({...item, color: iconColor, 
-        markerCity: markerCity.properties.name
-       })
+      setDetail({...item, color: iconColor })
     }
   }
 
@@ -48,17 +58,15 @@ export const PositionMarker = (props: any) => {
       <Popup>
         <p>{t('show')}</p>
       </Popup>
-    </Marker>)
+    </Marker>
+    )
 }
 
-export const MapMarker: FC<{ marker: any[]; geoJSON:any; setDetail: Dispatch<SetStateAction<any>>; setShowDialog:Dispatch<SetStateAction<boolean>>; }> = (props) => {
-  const {marker, geoJSON, setDetail, setShowDialog} = props;
-  // const map = useMap()
-  // .filter(item =>
-  // map.getBounds().contains({lat: item['緯度'], lng: item['經度']})
-  // )
+export const MapMarker: FC<{ emptyStore: any[]; sellingStore:any; showEmpty: boolean; setDetail: Dispatch<SetStateAction<any>>; setShowDialog:Dispatch<SetStateAction<boolean>>; }> = (props) => {
+  const {emptyStore, showEmpty, sellingStore, setDetail, setShowDialog} = props;
+  console.log(emptyStore)
   return (<MarkerClusterGroup>
-    {marker.map((item, index) => <PositionMarker item={item} key={`marker_${index}`} keyIndex={index} setDetail={setDetail}
-                                            setShowDialog={setShowDialog} geoJSON={geoJSON}/>)}
+    {showEmpty&&emptyStore.map((item:any) => <PositionMarker item={item} key={`marker_${item['醫事機構代碼']}`} keyIndex={`marker_${item['醫事機構代碼']}`} setDetail={setDetail} setShowDialog={setShowDialog}/>)}
+    {sellingStore.map((item:any) => <PositionMarker item={item} key={`marker_${item['醫事機構代碼']}`}  keyIndex={`marker_${item['醫事機構代碼']}`} setDetail={setDetail} setShowDialog={setShowDialog}/>)}
   </MarkerClusterGroup>)
 }

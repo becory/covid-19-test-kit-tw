@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState, useTransition} from 'react';
-import {useCityData} from '@covid-19-tw/database'
-import { GeoJSON, LayersControl, MapContainer, TileLayer, ZoomControl} from 'react-leaflet'
+import {useCityData, useFetch} from '@covid-19-tw/database'
+import {LayersControl, MapContainer, TileLayer, ZoomControl} from 'react-leaflet'
 import {Loading, Header, Legend, LocationMarker, MapMarker} from '@covid-19-tw/ui'
 import dayjs from 'dayjs'
 import {Detail, Announce} from './views';
@@ -8,12 +8,12 @@ import Fuse from 'fuse.js'
 import {useSearchParams} from 'react-router-dom'
 import {useTranslation} from "react-i18next";
 import axios from 'axios';
-import {GeoJsonObject} from 'geojson';
-import csv from 'csvtojson';
 import * as locale from 'dayjs/locale/zh-tw';
 
 export const Main = () => {
   const {data, loading} = useCityData(["city"])
+  const getNHI = useFetch(()=>axios.get('https://data.nhi.gov.tw/resource/Nhi_Fst/Fstdata.csv'))
+  const getAllStore = useFetch(()=>axios.get('https://becory.github.io/covid-19-test-kit-tw-data/all.csv'))
   const [searchParams] = useSearchParams()
   const [positionData, setPositionData] = useState<any[]>([])
   const [getData, setGetData] = useState<any[]>([])
@@ -29,36 +29,33 @@ export const Main = () => {
   const cityState = useState<string>('');
   const [city, setCity] = cityState;
 
-  const [cityGeoJSON, setCityGeoJSON] = useState<GeoJsonObject|null>(null);
+  const showEmptyState = useState<boolean>(false)
+  const [showEmpty,] = showEmptyState;
 
   const {t, i18n} = useTranslation()
 
   const [isPending, startTransition] = useTransition()
 
 
-  useEffect(() => {
-    axios.get('https://g0v.github.io/twgeojson/twCounty2010.geo.json').then((res) => {
-      setCityGeoJSON(res.data)
-    })
-  }, [])
 
   useEffect(()=>{
-    axios.get('https://data.nhi.gov.tw/resource/Nhi_Fst/Fstdata.csv').then((res)=>{
-      csv({
-        noheader:false
-      })
-      .fromString(res.data)
-      .then((jsonRow)=>{ 
-        const data = jsonRow.map((detail)=>{
-          detail['來源資料時間']= dayjs(detail['來源資料時間'])
-          detail[`快篩試劑截至目前結餘存貨數量`] = parseInt(detail[`快篩試劑截至目前結餘存貨數量`])
-          return detail
-        })
-        setUpdateTime(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-        setGetData(data)
-      })
-    })
+    getNHI.run()
+    getAllStore.run()
+    const getDataInterval = setInterval(()=>{
+      getNHI.run()
+    }, 120000)
+    return ()=>clearInterval(getDataInterval)
   },[])
+
+  useEffect(()=>{
+    const data = getNHI.data.map((detail:any)=>{
+      detail['來源資料時間']= dayjs(detail['來源資料時間'])
+      detail[`快篩試劑截至目前結餘存貨數量`] = parseInt(detail[`快篩試劑截至目前結餘存貨數量`])
+      return detail
+    })
+    setGetData(data) 
+    setUpdateTime(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+  },[getNHI.data])
 
   const fuse = useMemo(() => {
     const options = {
@@ -68,9 +65,14 @@ export const Main = () => {
         "醫事機構地址",
         "醫事機構電話"
       ]
-    };
+    };    
     return new Fuse(getData, options);
   }, [getData])
+
+  const emptyStore = useMemo(()=>{
+    const sellID = getData.map((item)=>item['醫事機構代碼'])
+    return getAllStore.data.filter((item:any)=> !sellID.includes(item['醫事機構代碼']))
+  }, [getData, getAllStore.data])
 
   useEffect(() => {
     document.title = t('title');
@@ -121,9 +123,11 @@ export const Main = () => {
           filter={{
             city: cityState,
             keyword: keywordState,
+            showEmpty: showEmptyState
           }}
           dataLength={positionData.length}
           cityList={cityList}
+          emptyStoreLength={emptyStore.length}
         />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -132,10 +136,7 @@ export const Main = () => {
         <LocationMarker/>
         <LayersControl position="topright">
           <LayersControl.Overlay checked name="販售店家 / Sell Store">
-            <MapMarker marker={positionData} setDetail={setDetail} setShowDialog={setShowDialog} geoJSON={cityGeoJSON}/>
-          </LayersControl.Overlay>
-          <LayersControl.Overlay checked name="縣市邊界 / City limits">
-           {cityGeoJSON&&<GeoJSON data={cityGeoJSON}/>}
+            <MapMarker sellingStore={positionData} setDetail={setDetail} setShowDialog={setShowDialog} showEmpty={showEmpty} emptyStore={emptyStore}/>
           </LayersControl.Overlay>
         </LayersControl>
         <ZoomControl position='bottomleft'/>
