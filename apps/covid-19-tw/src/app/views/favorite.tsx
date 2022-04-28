@@ -16,13 +16,13 @@ const FavoriteItem = (props:any)=>{
 
   const color = setColor(item['快篩試劑截至目前結餘存貨數量'])
 
-  return (<div className={[`bg-${color}-100`,"flex p-3 border border-solid rounded-md shadow-sm divide-black"].join(" ")}>
+  return (<div className={[`bg-${color}-100`,"flex p-3 border border-solid rounded-md shadow-sm divide-black text-black"].join(" ")}>
   <div className="flex text-xl w-10 items-center align-middle">
     <p className='text-center'>{item?.[`快篩試劑截至目前結餘存貨數量`] || '0'}</p>
   </div>
   <div className={"flex grow flex-col p-2 text-ellipsis border-l-2 border-solid border-black"}>
-    <p className="text-base">{item?.[`醫事機構名稱`]}</p>
-    <p>{item[`醫事機構地址`]}</p>
+    <p>{item?.[`醫事機構名稱`]}</p>
+    <p>{item?.[`醫事機構地址`]}</p>
   </div>
   <div>
   <button className="btn btn-error btn-outline gap-2" onClick={()=>onHeartClick(item['醫事機構代碼'])}><FontAwesomeIcon icon={faHeart} size="2x" className="text-red"/></button>
