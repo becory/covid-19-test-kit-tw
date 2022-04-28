@@ -23,17 +23,17 @@ export const LocationMarker = () => {
   )
 }
 
-const setColor = (count:number)=>{
+export const setColor = (count:number)=>{
   if(count>50){
-    return 'text-green-600' ;
+    return 'green' ;
   }
   if(count>=15){
-    return 'text-green-600';
+    return 'yellow';
   }
   if(count<15&&count > 0){
-    return 'text-red-700';
+    return 'red';
   }
-  return 'text-gray-500'
+  return 'gray'
 }
 
 export const PositionMarker = (props: any) => {
@@ -54,7 +54,7 @@ export const PositionMarker = (props: any) => {
   }
 
   return (
-    <Marker position={position} icon={colorIcon[iconColor.toString()]} eventHandlers={{click: click}} key={`m_${keyIndex}`}>
+    <Marker position={position} icon={colorIcon[`text-${iconColor.toString()}-600`]} eventHandlers={{click: click}} key={`m_${keyIndex}`}>
       <Popup>
         <p>{t('show')}</p>
       </Popup>
@@ -64,7 +64,6 @@ export const PositionMarker = (props: any) => {
 
 export const MapMarker: FC<{ emptyStore: any[]; sellingStore:any; showEmpty: boolean; setDetail: Dispatch<SetStateAction<any>>; setShowDialog:Dispatch<SetStateAction<boolean>>; }> = (props) => {
   const {emptyStore, showEmpty, sellingStore, setDetail, setShowDialog} = props;
-  console.log(emptyStore)
   return (<MarkerClusterGroup>
     {showEmpty&&emptyStore.map((item:any) => <PositionMarker item={item} key={`marker_${item['醫事機構代碼']}`} keyIndex={`marker_${item['醫事機構代碼']}`} setDetail={setDetail} setShowDialog={setShowDialog}/>)}
     {sellingStore.map((item:any) => <PositionMarker item={item} key={`marker_${item['醫事機構代碼']}`}  keyIndex={`marker_${item['醫事機構代碼']}`} setDetail={setDetail} setShowDialog={setShowDialog}/>)}

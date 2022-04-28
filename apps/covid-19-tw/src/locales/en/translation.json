@@ -25,5 +25,8 @@
   "brands": "Brands:",
   "latitude": "Latitude:",
   "remark": "Remark:",
-  "announcement": "Announcement"
+  "favorite": "Pinned Pharmacy",
+  "pin": "Pin",
+  "unpin": "Unpin",
+  "noPinned": "No Pinned Pharmacy in List."
 }

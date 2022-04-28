@@ -1,7 +1,7 @@
 import {FC, Dispatch, SetStateAction, useEffect, useRef, useState, ReactNode} from "react";
 import L from 'leaflet';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFilter, faCrosshairs, faEraser, faEye} from "@fortawesome/free-solid-svg-icons";
+import {faFilter, faCrosshairs, faEraser, faEye, faHeart} from "@fortawesome/free-solid-svg-icons";
 import {useMap} from "react-leaflet";
 import {useSearchParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
@@ -18,12 +18,14 @@ interface HeaderProps {
   dataLength: number;
   emptyStoreLength: number;
   children?: ReactNode;
+  setShowDialog: Dispatch<SetStateAction<boolean>>;
+  setDetail: Dispatch<SetStateAction<any>>
 }
 
 
 
 export const Header: FC<HeaderProps> = (props) => {
-  const {filter, cityList, dataLength, emptyStoreLength, children} = props;
+  const {filter, cityList, dataLength, emptyStoreLength, children, setShowDialog, setDetail} = props;
   const {
     keyword: keywordState,
     city: cityState,
@@ -63,9 +65,14 @@ export const Header: FC<HeaderProps> = (props) => {
     <div ref={divRef}
          className="absolute z-[600] top-0 bg-base-100 border-base-300 border border-solid rounded-md m-3 py-2 px-4 shadow-md flex flex-col gap-1">
       <h1 className="text-xl font-bold select-none text-base-content py-1">{t('title')}</h1>
+      <div className="flex justify-between">
       <div className="btn-group">
         <button className={["btn btn-xs", (i18n.language==='zh'||i18n.language==='zh-TW')&&'btn-active'].join(' ')} onClick={()=>changeLanguage('zh')}>中文</button>
         <button className={["btn btn-xs", i18n.language==='en'&&'btn-active'].join(' ')} onClick={()=>changeLanguage('en')}>English</button>
+      </div>
+      <div>
+        <button className="btn btn-xs btn-info gap-2" onClick={()=>{setShowDialog(true); setDetail(null)}}><FontAwesomeIcon icon={faHeart} className="text-red-600"/> {t('favorite')}</button>
+      </div>
       </div>
       <div className="gap-1 flex text-base">
         <div><FontAwesomeIcon icon={faEye}/></div>

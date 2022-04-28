@@ -1,11 +1,11 @@
 {
-  "title": "臺灣COVID-19快篩試劑購買地圖",
+  "title": "臺灣COVID-19快篩試劑地圖",
   "nowDisplay": "{{dataLength}}間藥局販售中，{{soldOut}}間已售完。",
   "displaySoldOut": "顯示完售藥局",
   "show": "目前顯示",
   "filter": "篩選",
   "myLocation": "我的位置",
-  "keyword": "藥局名稱/地址/電話 關鍵字：",
+  "keyword": "關鍵字：",
   "city": "縣市：",
   "storeNo": "藥事編號：",
   "resetFilter": "清除篩選",
@@ -26,5 +26,8 @@
   "longitude": "經度：",
   "remark": "備註：",
   "dataSource": "資料來源：",
-  "announcement": "公告"
+  "favorite": "常用藥局",
+  "pin": "釘選",
+  "unpin": "不釘",
+  "noPinned": "尚未設定常用藥局。"
 }

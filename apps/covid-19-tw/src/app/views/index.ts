@@ -1,2 +1,2 @@
 export * from './detail'
-export * from './announce'
+export * from './favorite'

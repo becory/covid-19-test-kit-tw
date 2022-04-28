@@ -3,7 +3,7 @@ import {useCityData, useFetch} from '@covid-19-tw/database'
 import {LayersControl, MapContainer, TileLayer, ZoomControl} from 'react-leaflet'
 import {Loading, Header, Legend, LocationMarker, MapMarker} from '@covid-19-tw/ui'
 import dayjs from 'dayjs'
-import {Detail, Announce} from './views';
+import {Detail, Favorite} from './views';
 import Fuse from 'fuse.js'
 import {useSearchParams} from 'react-router-dom'
 import {useTranslation} from "react-i18next";
@@ -17,7 +17,7 @@ export const Main = () => {
   const [searchParams] = useSearchParams()
   const [positionData, setPositionData] = useState<any[]>([])
   const [getData, setGetData] = useState<any[]>([])
-  const [updateTime, setUpdateTime] = useState<string>()
+  const [updateTime, setUpdateTime] = useState<string>('')
   const [detail, setDetail] = useState<any>();
 
   const [showDialog, setShowDialog] = useState(true);
@@ -36,16 +36,31 @@ export const Main = () => {
 
   const [isPending, startTransition] = useTransition()
 
+  const favoriteState = useState<string[]>([])
+  const [favorite, setFavorite]= favoriteState;
+  const [favoriteList, setFavoriteList]= useState<any[]>([]);
 
+  const [init, setInit] = useState(false);
 
   useEffect(()=>{
+    const getFavorite = localStorage.getItem('favorite')
+    if(getFavorite){
+      setFavorite(JSON.parse(getFavorite))
+    }
     getNHI.run()
     getAllStore.run()
+    setInit(true)
     const getDataInterval = setInterval(()=>{
       getNHI.run()
     }, 120000)
     return ()=>clearInterval(getDataInterval)
   },[])
+
+  useEffect(()=>{
+    if(init){
+      localStorage.setItem('favorite', JSON.stringify(favorite))
+    }
+  },[JSON.stringify(favorite)])
 
   useEffect(()=>{
     const data = getNHI.data.map((detail:any)=>{
@@ -56,6 +71,7 @@ export const Main = () => {
     setGetData(data) 
     setUpdateTime(dayjs().format('YYYY-MM-DD HH:mm:ss'))
   },[getNHI.data])
+
 
   const fuse = useMemo(() => {
     const options = {
@@ -73,6 +89,10 @@ export const Main = () => {
     const sellID = getData.map((item)=>item['醫事機構代碼'])
     return getAllStore.data.filter((item:any)=> !sellID.includes(item['醫事機構代碼']))
   }, [getData, getAllStore.data])
+
+  useEffect(()=>{
+    setFavoriteList([...getData.filter((item:any)=>favorite.includes(item['醫事機構代碼'])), ...emptyStore.filter((item:any)=>favorite.includes(item['醫事機構代碼']))])
+  },[getData, emptyStore, favorite])
 
   useEffect(() => {
     document.title = t('title');
@@ -128,6 +148,8 @@ export const Main = () => {
           dataLength={positionData.length}
           cityList={cityList}
           emptyStoreLength={emptyStore.length}
+          setShowDialog={setShowDialog}
+          setDetail={setDetail}
         />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -143,9 +165,9 @@ export const Main = () => {
         <Legend updateTime={updateTime}/>
         {showDialog &&
           (detail ? (
-            <Detail detail={detail} setShowDialog={setShowDialog} cityList={cityList}/>
+            <Detail detail={detail} setShowDialog={setShowDialog} favoriteState={favoriteState}/>
           ) : (
-            <Announce setShowDialog={setShowDialog}/>
+            <Favorite setShowDialog={setShowDialog} favoriteList={favoriteList} favoriteState={favoriteState}/>
           ))
         }
       </MapContainer>
