@@ -34,5 +34,6 @@
   "openPermission": "Please allow [Location] permission.",
   "filtered": "Filtered",
   "copied": "Copied",
-  "copiedError": "Copied Error"
+  "copiedError": "Copied Error",
+  "rule": "Name-based rationing system for at-home COVID-19 test kits (CDC)"
 }

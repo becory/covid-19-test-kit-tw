@@ -35,5 +35,6 @@
   "openPermission": "請打開[定位]權限。",
   "filtered": "已篩選",
   "copied": "已複製",
-  "copiedError": "複製失敗"
+  "copiedError": "複製失敗",
+  "rule": "實名制快篩規則（疾管署）"
 }

@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { setColor, SidePanel } from "@covid-19-tw/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faHeart, faMapLocation, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faClock, faHeart, faInfoCircle, faMapLocation, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {useTranslation} from "react-i18next";
 import dayjs  from "dayjs";
@@ -46,6 +46,8 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
     const [favorite, setFavorite] = favoriteState;
     const {t, i18n} = useTranslation();
 
+    const ruleI18nURL = i18n.language==='en'? "https://www.cdc.gov.tw/En/Bulletin/Detail/rGeS26Buh0cqn8HqwyX_QQ?typeid=158" :"https://www.cdc.gov.tw/Bulletin/Detail/jgRik-rw93PUUhyZj_ut-g?typeid=9"
+
     const onHeartClick = (id:string)=>{
       setFavorite(favorite.filter(item => {
         console.log(item !== id)
@@ -76,18 +78,21 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
               </div>
               <div className="text-right text-base">{t('autoUpdate')}</div>
             </div>
-            {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} />)): <div className="text-base">{t('noPinned')}</div>}
+            {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} />)): <div className="text-base border border-gray-300 border-solid bg-info bg-opacity-20 p-4 gap-3 flex items-center rounded-lg">
+             <FontAwesomeIcon icon={faInfoCircle} />{t('noPinned')}</div>}
+             <a className="gap-2 text-base flex items-center mx-5 my-2" href={ruleI18nURL} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faArrowUpRightFromSquare}/>{t('rule')}</a>
             <div className="text-base md:p-5">
               提醒：
               <ul className='px-5'>
                 <li>本地圖載入時，會載入所有販售地點再做搜尋，執行速度視您的裝置設備效能而定。</li>
               </ul>
             </div>
-            <div className="flex md:p-5 gap-3">
-              <button className="btn btn-black gap-2" onClick={()=>{
+            <div className="flex md:px-5 gap-3">
+             <button className="btn btn-black gap-2" onClick={()=>{
                 window.open("https://github.com/becory/covid-19-test-kit-tw", "_blank")
               }}><FontAwesomeIcon icon={faGithub}/>Github</button>
             </div>
+            
           </div>
         </SidePanel>
     )
