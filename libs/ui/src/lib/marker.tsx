@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next"
 
 export const LocationMarker = () => {
   const [position, setPosition] = useState<LatLngExpression | null>(null)
-  const {t }= useTranslation()
+  const { t }= useTranslation()
   const map = useMapEvents({
     locationfound(e: L.LocationEvent) {
       setPosition(e.latlng)
@@ -29,7 +29,7 @@ export const LocationMarker = () => {
 
   return position === null ? null : (
     <Marker position={position} icon={defaultIcon}>
-      <Popup>You are here</Popup>
+      <Popup>{t('locate')}</Popup>
     </Marker>
   )
 }
