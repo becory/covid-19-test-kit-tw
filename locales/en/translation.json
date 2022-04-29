@@ -36,5 +36,6 @@
   "copied": "Copied",
   "copiedError": "Copied Error",
   "rule": "Name-based rationing system for at-home COVID-19 test kits (CDC)",
-  "locate": "You are Here"
+  "locate": "You are Here",
+  "refresh": "Refresh"
 }

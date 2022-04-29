@@ -37,5 +37,6 @@
   "copied": "已複製",
   "copiedError": "複製失敗",
   "rule": "實名制快篩規則（疾管署）",
-  "locate": "您的位置"
+  "locate": "您的位置",
+  "refresh": "重新整理"
 }
