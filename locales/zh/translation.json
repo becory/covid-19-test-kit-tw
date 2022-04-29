@@ -27,6 +27,8 @@
   "remark": "備註：",
   "dataSource": "資料來源：",
   "favorite": "常用藥局",
+  "autoUpdate": "(每2分鐘自動更新)",
+  "countGte": "庫存 大於等於：",
   "pin": "釘選",
   "unpin": "不釘",
   "noPinned": "尚未設定常用藥局。"
