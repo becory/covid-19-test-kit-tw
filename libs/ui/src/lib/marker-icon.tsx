@@ -4,7 +4,7 @@ import { divIcon } from "leaflet";
 import {renderToString} from 'react-dom/server'
 
 export const defaultIcon = divIcon({
-    html: renderToString(<FontAwesomeIcon icon={faLocationDot} className="text-blue-400 drop-shadow-2xl w-full h-auto" />),
+    html: renderToString(<FontAwesomeIcon icon={faLocationDot} className="text-primary drop-shadow-2xl w-full h-auto" />),
     className: 'icon',
     iconSize: [25, 33.33],
     iconAnchor: [11, 39],

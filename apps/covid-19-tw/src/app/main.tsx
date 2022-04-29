@@ -9,6 +9,7 @@ import {useSearchParams} from 'react-router-dom'
 import {useTranslation} from "react-i18next";
 import axios from 'axios';
 import * as locale from 'dayjs/locale/zh-tw';
+import { LatLng } from 'leaflet';
 
 export const Main = () => {
   const {data, loading} = useCityData(["city"])
@@ -66,6 +67,7 @@ export const Main = () => {
 
   useEffect(()=>{
     const dataFormat = getNHI.data.map((detail:any)=>{
+      detail['position'] = new LatLng(detail['緯度'], detail['經度'])
       detail['來源資料時間']= dayjs(detail['來源資料時間'])
       detail[`快篩試劑截至目前結餘存貨數量`] = parseInt(detail[`快篩試劑截至目前結餘存貨數量`])
       return detail
@@ -89,7 +91,10 @@ export const Main = () => {
 
   const emptyStore = useMemo(()=>{
     const sellID = getData.map((item)=>item['醫事機構代碼'])
-    return getAllStore.data.filter((item:any)=> !sellID.includes(item['醫事機構代碼']))
+    return getAllStore.data.filter((item:any)=> !sellID.includes(item['醫事機構代碼'])).map((detail:any)=>{
+      detail['position'] = new LatLng(detail['緯度'], detail['經度'])
+      return detail
+    })
   }, [getData, getAllStore.data])
 
   useEffect(()=>{
