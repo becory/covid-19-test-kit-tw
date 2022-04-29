@@ -10,6 +10,7 @@ interface FilterProps {
   keyword: [string, Dispatch<SetStateAction<string>>];
   city: [string, Dispatch<SetStateAction<string>>];
   showEmpty: [boolean, Dispatch<SetStateAction<boolean>>];
+  count: [string, Dispatch<SetStateAction<string>>];
 }
 
 interface HeaderProps {
@@ -29,10 +30,12 @@ export const Header: FC<HeaderProps> = (props) => {
   const {
     keyword: keywordState,
     city: cityState,
-    showEmpty: showEmptyState
+    showEmpty: showEmptyState,
+    count: countState
   } = filter;
   const [keyword, setKeyword] = keywordState;
   const [city, setCity] = cityState;
+  const [count, setCount] = countState;
   const [showEmpty, setShowEmpty] = showEmptyState;
   const [, setSearchParams] = useSearchParams();
   const [openFilter, setOpenFilter] = useState<boolean>(false)
@@ -104,6 +107,14 @@ export const Header: FC<HeaderProps> = (props) => {
         </div>
         <div className="form-control w-full max-w-xs">
           <label className="label">
+            <span className="label-text">{t("countGte")}</span>
+          </label>
+          <input className="input input-primary input-sm" type="number" value={count} onChange={(e: any) => {
+            setCount(e.target.value)
+          }}/>
+        </div>
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
             <span className="label-text">{t('city')}</span>
           </label>
           {(<select value={city} onChange={(e: any) => {
@@ -132,6 +143,7 @@ export const Header: FC<HeaderProps> = (props) => {
         <button className='btn btn-error btn-xs' onClick={() => {
           setKeyword('')
           setCity('')
+          setCount('')
           setSearchParams({}, {replace: true})
         }}><FontAwesomeIcon icon={faEraser}/>{t('resetFilter')}
         </button>

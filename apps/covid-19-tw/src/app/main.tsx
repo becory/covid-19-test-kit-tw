@@ -28,6 +28,8 @@ export const Main = () => {
   const [keyword, setKeyword] = keywordState;
   const cityState = useState<string>('');
   const [city, setCity] = cityState;
+  const countState = useState<string>('');
+  const [count, setCount] = countState;
 
   const showEmptyState = useState<boolean>(false)
   const [showEmpty,] = showEmptyState;
@@ -63,12 +65,12 @@ export const Main = () => {
   },[JSON.stringify(favorite)])
 
   useEffect(()=>{
-    const data = getNHI.data.map((detail:any)=>{
+    const dataFormat = getNHI.data.map((detail:any)=>{
       detail['來源資料時間']= dayjs(detail['來源資料時間'])
       detail[`快篩試劑截至目前結餘存貨數量`] = parseInt(detail[`快篩試劑截至目前結餘存貨數量`])
       return detail
     })
-    setGetData(data) 
+    setGetData(dataFormat) 
     setUpdateTime(dayjs().format('YYYY-MM-DD HH:mm:ss'))
   },[getNHI.data])
 
@@ -106,8 +108,10 @@ export const Main = () => {
   useEffect(() => {
     const getKeyword = searchParams.get('keyword') || ''
     const getCity = searchParams.get('city') || ''
+    const getCount = searchParams.get('count') || ''
     setKeyword(getKeyword)
     setCity(getCity)
+    setCount(getCount)
   }, [searchParams])
 
   useEffect(() => {
@@ -127,11 +131,18 @@ export const Main = () => {
         } else {
           searchData = getData
         }
+        const inputCount = parseInt(count)
+        const filterData = searchData.filter((item:any)=>{
+          if(inputCount>=0){
+            return item['快篩試劑截至目前結餘存貨數量'] >= inputCount
+          }
+          return item
+        })
 
-        setPositionData(searchData)
+        setPositionData(filterData)
       })
     }
-  }, [getData, keyword, city])
+  }, [getData, keyword, city, count])
 
 
   return (
@@ -143,7 +154,8 @@ export const Main = () => {
           filter={{
             city: cityState,
             keyword: keywordState,
-            showEmpty: showEmptyState
+            showEmpty: showEmptyState,
+            count: countState
           }}
           dataLength={positionData.length}
           cityList={cityList}
