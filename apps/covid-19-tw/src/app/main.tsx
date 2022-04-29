@@ -165,7 +165,7 @@ export const Main = () => {
         <Legend updateTime={updateTime}/>
         {showDialog &&
           (detail ? (
-            <Detail detail={detail} setShowDialog={setShowDialog} favoriteState={favoriteState}/>
+            <Detail detail={detail} sellingStore={positionData} emptyStore={emptyStore} setShowDialog={setShowDialog} favoriteState={favoriteState}/>
           ) : (
             <Favorite setShowDialog={setShowDialog} favoriteList={favoriteList} favoriteState={favoriteState}/>
           ))

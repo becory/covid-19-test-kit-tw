@@ -17,16 +17,24 @@ import dayjs from "dayjs";
 
 interface DetailProps {
   detail: any;
+  emptyStore: any[];
+  sellingStore:any;
   setShowDialog: Dispatch<SetStateAction<boolean>>;
   favoriteState: [string[], Dispatch<SetStateAction<string[]>>]
 }
 
 export const Detail: FC<DetailProps> = (props) => {
-  const {detail, setShowDialog, favoriteState} = props;
+  const {detail:id, emptyStore, sellingStore, setShowDialog, favoriteState} = props;
   const [favorite, setFavorite] = favoriteState;
 
   const {t, i18n} = useTranslation();
 
+  const detail = sellingStore.find((item:any)=> item['醫事機構代碼']===id) || emptyStore.find((item:any)=> item['醫事機構代碼']===id)
+
+  if(!detail){
+    return null
+  }
+  
   const isPined = Boolean(favorite.find(item=>item===detail['醫事機構代碼']))
 
   const onHeartClick = ()=>{

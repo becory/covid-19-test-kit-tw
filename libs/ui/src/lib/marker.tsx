@@ -49,7 +49,7 @@ export const PositionMarker = (props: any) => {
     // e.stopPropagation()
     if (item) {
       setShowDialog(true)
-      setDetail({...item, color: iconColor })
+      setDetail(item['醫事機構代碼'])
     }
   }
 
