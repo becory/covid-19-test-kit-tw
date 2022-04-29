@@ -71,7 +71,7 @@ export const Detail: FC<DetailProps> = (props) => {
           <div className="flex justify-between  items-center">
             <div className="text-base font-bold p-3 gap-2 flex items-center">
               <FontAwesomeIcon icon={faClock} className="text-info"/> 
-              <div>{detail?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(detail?.['來源資料時間']), count: detail?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</div>
+              <div>{detail?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(detail?.['來源資料時間']), stock: detail?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</div>
             </div>
             <button className="btn btn-error btn-outline gap-2" onClick={onHeartClick}><FontAwesomeIcon icon={isPined? faHeartSolid:faHeart} size="2x" className="text-red"/> {t(isPined? 'unpin':'pin')}</button>
           </div>

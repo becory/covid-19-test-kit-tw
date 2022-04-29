@@ -10,7 +10,7 @@ interface FilterProps {
   keyword: [string, Dispatch<SetStateAction<string>>];
   city: [string, Dispatch<SetStateAction<string>>];
   showEmpty: [boolean, Dispatch<SetStateAction<boolean>>];
-  count: [string, Dispatch<SetStateAction<string>>];
+  stock: [string, Dispatch<SetStateAction<string>>];
 }
 
 interface HeaderProps {
@@ -31,11 +31,11 @@ export const Header: FC<HeaderProps> = (props) => {
     keyword: keywordState,
     city: cityState,
     showEmpty: showEmptyState,
-    count: countState
+    stock: stockState
   } = filter;
   const [keyword, setKeyword] = keywordState;
   const [city, setCity] = cityState;
-  const [count, setCount] = countState;
+  const [stock, setStock] = stockState;
   const [showEmpty, setShowEmpty] = showEmptyState;
   const [, setSearchParams] = useSearchParams();
   const [openFilter, setOpenFilter] = useState<boolean>(false)
@@ -69,8 +69,8 @@ export const Header: FC<HeaderProps> = (props) => {
     if(keyword){
       filter.push(`keyword=${keyword}`)
     }
-    if(count){
-      filter.push(`count=${count}`)
+    if(stock){
+      filter.push(`stock=${stock}`)
     }
     if(city){
       filter.push(`city=${keyword}`)
@@ -101,7 +101,7 @@ export const Header: FC<HeaderProps> = (props) => {
       </div>
       <div className="gap-1 flex text-base">
         <div><FontAwesomeIcon icon={faEye}/></div>
-        <div>{(city||keyword||count)&&<span className="badge badge-info">{t('filtered')}</span>}
+        <div>{(city||keyword||stock)&&<span className="badge badge-info">{t('filtered')}</span>}
           {t('nowDisplay', {dataLength: dataLength, soldOut: emptyStoreLength})}
         </div>
       </div>
@@ -129,10 +129,10 @@ export const Header: FC<HeaderProps> = (props) => {
         </div>
         <div className="form-control w-full max-w-xs">
           <label className="label">
-            <span className="label-text">{t("countGte")}</span>
+            <span className="label-text">{t("stockGte")}</span>
           </label>
-          <input className="input input-primary input-sm" type="number" value={count} onChange={(e: any) => {
-            setCount(e.target.value)
+          <input className="input input-primary input-sm" type="number" value={stock} onChange={(e: any) => {
+            setStock(e.target.value)
           }}/>
         </div>
         <div className="form-control w-full max-w-xs">
@@ -166,7 +166,7 @@ export const Header: FC<HeaderProps> = (props) => {
         <button className='btn btn-error btn-xs' onClick={() => {
           setKeyword('')
           setCity('')
-          setCount('')
+          setStock('')
           setSearchParams({}, {replace: true})
         }}><FontAwesomeIcon icon={faEraser}/>{t('resetFilter')}
         </button>

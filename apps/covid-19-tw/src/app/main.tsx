@@ -30,8 +30,8 @@ export const Main = () => {
   const [keyword, setKeyword] = keywordState;
   const cityState = useState<string>('');
   const [city, setCity] = cityState;
-  const countState = useState<string>('');
-  const [count, setCount] = countState;
+  const stockState = useState<string>('');
+  const [stock, setStock] = stockState;
 
   const showEmptyState = useState<boolean>(false)
   const [showEmpty,] = showEmptyState;
@@ -126,10 +126,10 @@ export const Main = () => {
   useEffect(() => {
     const getKeyword = searchParams.get('keyword') || ''
     const getCity = searchParams.get('city') || ''
-    const getCount = searchParams.get('count') || ''
+    const getStock = searchParams.get('stock') || ''
     setKeyword(getKeyword)
     setCity(getCity)
-    setCount(getCount)
+    setStock(getStock)
   }, [searchParams])
 
   useEffect(() => {
@@ -151,21 +151,21 @@ export const Main = () => {
           searchData = getData;
           searchEmptyData = emptyStore;
         }
-        const inputCount = parseInt(count)
+        const inputStock = parseInt(stock)
         const filterData = searchData.filter((item:any)=>{
-          if(inputCount>=0){
-            return item['快篩試劑截至目前結餘存貨數量'] >= inputCount
+          if(inputStock>=0){
+            return item['快篩試劑截至目前結餘存貨數量'] >= inputStock
           }
           return item
         })
 
         setPositionData(filterData)
-        if(!inputCount){
+        if(!inputStock){
           setEmptyData(searchEmptyData)
         }
       })
     }
-  }, [getData, keyword, city, count])
+  }, [getData, keyword, city, stock])
 
   return (
     <div className="relative select-none">
@@ -177,7 +177,7 @@ export const Main = () => {
             city: cityState,
             keyword: keywordState,
             showEmpty: showEmptyState,
-            count: countState
+            stock: stockState
           }}
           dataLength={positionData.length}
           cityList={cityList}

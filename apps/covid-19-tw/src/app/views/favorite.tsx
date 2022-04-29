@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { setColor, SidePanel } from "@covid-19-tw/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faHeart, faInfoCircle, faMapLocation, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faHeart, faMapLocation, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {useTranslation} from "react-i18next";
 import dayjs  from "dayjs";
@@ -33,7 +33,7 @@ const FavoriteItem = (props:any)=>{
     <p className="gap-2">{item?.[`醫事機構地址`]} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/> 導航 </button>  </p>
     <a href={`tel:${item?.[`醫事機構電話`]}`}>{item?.[`醫事機構電話`]}</a>
     <p className="gap-2"><FontAwesomeIcon icon={faClock} className="text-info"/> 
-             {item?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(item?.['來源資料時間']), count: item?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</p>
+             {item?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(item?.['來源資料時間']), stock: item?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</p>
   </div>
   <div>
   <button className="btn btn-error btn-outline gap-2" onClick={()=>onHeartClick(item['醫事機構代碼'])}><FontAwesomeIcon icon={faHeart} size="2x" className="text-red"/></button>

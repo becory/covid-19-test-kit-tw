@@ -34,14 +34,14 @@ export const LocationMarker = () => {
   )
 }
 
-export const setColor = (count:number)=>{
-  if(count>50){
+export const setColor = (stock:number)=>{
+  if(stock>50){
     return 'green' ;
   }
-  if(count>=15){
+  if(stock>=15){
     return 'yellow';
   }
-  if(count<15&&count > 0){
+  if(stock<15&&stock > 0){
     return 'red';
   }
   return 'gray'
@@ -52,8 +52,8 @@ export const PositionMarker = (props: any) => {
   const {t} = useTranslation();
   const {item, setDetail, setShowDialog, keyIndex} = props;
   if (!item || !item['緯度']|| !item['經度']) return null
-  const count = item[`快篩試劑截至目前結餘存貨數量`]
-  const iconColor = setColor(count);
+  const stock = item[`快篩試劑截至目前結餘存貨數量`]
+  const iconColor = setColor(stock);
 
   const click = () => {
     // e.stopPropagation()
