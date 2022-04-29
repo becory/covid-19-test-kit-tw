@@ -37,6 +37,10 @@ export const Detail: FC<DetailProps> = (props) => {
     }
   }
 
+  const onOpenGoogleMap = ()=>{
+    window.open(`https://www.google.com.tw/maps/search/${detail?.[`醫事機構地址`]}`, "_blank")
+  }
+
   //(?<zipcode>(^\d{5}|^\d{3})?)(?<city>\D+[縣市])(?<district>\D+?(市區|鎮區|鎮市|[鄉鎮市區]))(?<others>.+)
   const address = detail?.['醫事機構地址'].trim().split(/(?<zipcode>(^\d{5}|^\d{3})?)(?<city>\D+[縣市])(?<district>\D+?(市區|鎮區|鎮市|[鄉鎮市區]))(?<others>.+)/).filter((item:any)=>item)
   return (
@@ -91,7 +95,7 @@ export const Detail: FC<DetailProps> = (props) => {
                       to={`?keyword=${address[0].trim()}${address[1].trim()}`} key={`address`}>{address?.[0].trim()}{address?.[1].trim()}</Link>{address?.[3].trim()}
                   </div>
                   <div>
-                    <a href={`https://www.google.com.tw/maps/place/${detail?.[`醫事機構地址`]}`} target="_blank" rel="noreferrer"> 從Google Map開啟 </a>  
+                    <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-sm"><FontAwesomeIcon icon={faMapLocation}/> 從Google Map開啟 </button>  
                   </div>
                 </>)}
               </div>
