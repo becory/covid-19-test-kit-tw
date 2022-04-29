@@ -23,20 +23,24 @@ const FavoriteItem = (props:any)=>{
     window.open(`https://www.google.com.tw/maps/search/${item?.[`醫事機構地址`]}`, "_blank")
   }
 
-  return (<div className={[`bg-${color}-100`,"flex p-3 border border-solid rounded-md shadow-sm divide-black text-black"].join(" ")}>
-  <div className="flex text-xl w-10 items-center align-middle">
-    <p className='text-center'>{item?.[`快篩試劑截至目前結餘存貨數量`] || '0'}</p>
-  </div>
-  <div className={"flex grow flex-col p-2 text-ellipsis border-l-2 border-solid border-black"}>
-    <p className="text-base font-bold">{item?.[`醫事機構名稱`] && <Link
-                    to={`?keyword=${item?.[`醫事機構名稱`].trim()}`} className="flex" key={`keyword_${item?.[`醫事機構名稱`]}`}>{item?.[`醫事機構名稱`].trim()}</Link>}</p>
-    <p className="gap-2">{item?.[`醫事機構地址`]} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/> 導航 </button>  </p>
-    <a href={`tel:${item?.[`醫事機構電話`]}`}>{item?.[`醫事機構電話`]}</a>
-    <p className="gap-2"><FontAwesomeIcon icon={faClock} className="text-info"/> 
-             {item?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(item?.['來源資料時間']), stock: item?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</p>
-  </div>
-  <div>
-  <button className="btn btn-error btn-outline gap-2" onClick={()=>onHeartClick(item['醫事機構代碼'])}><FontAwesomeIcon icon={faHeart} size="2x" className="text-red"/></button>
+  return (<div className={[`bg-${color}-100`,"flex border border-solid rounded-md shadow-sm divide-black text-black"].join(" ")}>
+  <h2 className="flex p-3 text-2xl font-bold w-[3.5rem] items-center align-middle text-center justify-center">
+    {item?.[`快篩試劑截至目前結餘存貨數量`] || '1000'}
+  </h2>
+  <div className="flex flex-col grow border-l-2 border-solid border-black p-2">
+    <h3 className="flex text-base font-bold gap-2 py-1">{item?.[`醫事機構名稱`] && <Link
+                      to={`?keyword=${item?.[`醫事機構名稱`].trim()}`} className="flex" key={`keyword_${item?.[`醫事機構名稱`]}`}>{item?.[`醫事機構名稱`].trim()}</Link>} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/> 導航 </button> </h3>
+    <div className="flex justify-between items-center">
+      <div className={"flex grow flex-col text-ellipsis"}>
+        <p className="gap-2">{item?.[`醫事機構地址`]}</p>
+        <a href={`tel:${item?.[`醫事機構電話`]}`}>{item?.[`醫事機構電話`]}</a>
+        <p className="gap-2"><FontAwesomeIcon icon={faClock} className="text-info"/> 
+                {item?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(item?.['來源資料時間']), stock: item?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</p>
+      </div>
+      <div className="flex justify-center items-center align-middle p-2">
+        <button className="btn btn-error btn-outline gap-2" onClick={()=>onHeartClick(item['醫事機構代碼'])}><FontAwesomeIcon icon={faHeart} size="2x" className="text-red"/></button>
+      </div>
+    </div>
   </div>
   </div>)
 }
@@ -78,7 +82,7 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
               </div>
               <div className="text-right text-base">{t('autoUpdate')}</div>
             </div>
-            {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} />)): <div className="text-base border border-gray-300 border-solid bg-info bg-opacity-20 p-4 gap-3 flex items-center rounded-lg">
+            {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} key={item['醫事機構代碼']}/>)): <div className="text-base border border-gray-300 border-solid bg-info bg-opacity-20 p-4 gap-3 flex items-center rounded-lg">
              <FontAwesomeIcon icon={faInfoCircle} />{t('noPinned')}</div>}
              <a className="gap-2 text-base flex items-center mx-5 my-2" href={ruleI18nURL} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faArrowUpRightFromSquare}/>{t('rule')}</a>
             <div className="text-base md:p-5">
