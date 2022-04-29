@@ -63,7 +63,7 @@ export const Header: FC<HeaderProps> = (props) => {
       <FontAwesomeIcon icon={faCrosshairs}/>{t('myLocation')}
     </button>
   }
-
+  
   return (
     <div ref={divRef}
          className="absolute z-[600] top-0 bg-base-100 border-base-300 border border-solid rounded-md m-3 py-2 px-4 shadow-md flex flex-col gap-1">

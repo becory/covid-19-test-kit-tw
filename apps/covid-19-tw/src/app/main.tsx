@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState, useTransition} from 'react';
 import {useCityData, useFetch} from '@covid-19-tw/database'
-import {LayersControl, MapContainer, TileLayer, ZoomControl} from 'react-leaflet'
+import {LayersControl, MapContainer, TileLayer, useMapEvents, ZoomControl} from 'react-leaflet'
 import {Loading, Header, Legend, LocationMarker, MapMarker} from '@covid-19-tw/ui'
 import dayjs from 'dayjs'
 import {Detail, Favorite} from './views';
@@ -143,7 +143,6 @@ export const Main = () => {
       })
     }
   }, [getData, keyword, city, count])
-
 
   return (
     <div className="relative select-none">

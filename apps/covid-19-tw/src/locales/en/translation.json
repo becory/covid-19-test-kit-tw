@@ -30,5 +30,6 @@
   "countGte": "Stock greater than or equal to",
   "pin": "Pin",
   "unpin": "Unpin",
-  "noPinned": "No Pinned Pharmacy in List."
+  "noPinned": "No Pinned Pharmacy in List.",
+  "openPermission": "Please allow [Location] permission."
 }

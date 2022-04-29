@@ -8,13 +8,25 @@ import { useTranslation } from "react-i18next"
 
 export const LocationMarker = () => {
   const [position, setPosition] = useState<LatLngExpression | null>(null)
-
+  const {t }= useTranslation()
   const map = useMapEvents({
     locationfound(e: L.LocationEvent) {
       setPosition(e.latlng)
       map.flyTo(e.latlng, 12)
     },
+    locationerror(e){
+      if(e.code===1){
+        alert(t('openPermission'))
+      }else{
+        alert(e.message)
+      }
+    }
   })
+  
+  useEffect(() => {
+    map.locate()
+  }, []);
+
 
   return position === null ? null : (
     <Marker position={position} icon={defaultIcon}>
