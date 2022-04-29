@@ -162,6 +162,8 @@ export const Main = () => {
         setPositionData(filterData)
         if(!inputStock){
           setEmptyData(searchEmptyData)
+        }else{
+          setEmptyData([])
         }
       })
     }
