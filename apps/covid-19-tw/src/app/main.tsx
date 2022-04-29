@@ -18,6 +18,7 @@ export const Main = () => {
   const [searchParams] = useSearchParams()
   const [positionData, setPositionData] = useState<any[]>([])
   const [getData, setGetData] = useState<any[]>([])
+  const [emptyData, setEmptyData] = useState<any[]>([])
   const [updateTime, setUpdateTime] = useState<string>('')
   const [detail, setDetail] = useState<any>();
 
@@ -77,6 +78,14 @@ export const Main = () => {
   },[getNHI.data])
 
 
+  const emptyStore = useMemo(()=>{
+    const sellID = getData.map((item)=>item['醫事機構代碼'])
+    return getAllStore.data.filter((item:any)=> !sellID.includes(item['醫事機構代碼'])).map((detail:any)=>{
+      detail['position'] = new LatLng(detail['緯度'], detail['經度'])
+      return detail
+    })
+  }, [getData, getAllStore.data])
+
   const fuse = useMemo(() => {
     const options = {
       useExtendedSearch: true,
@@ -89,13 +98,17 @@ export const Main = () => {
     return new Fuse(getData, options);
   }, [getData])
 
-  const emptyStore = useMemo(()=>{
-    const sellID = getData.map((item)=>item['醫事機構代碼'])
-    return getAllStore.data.filter((item:any)=> !sellID.includes(item['醫事機構代碼'])).map((detail:any)=>{
-      detail['position'] = new LatLng(detail['緯度'], detail['經度'])
-      return detail
-    })
-  }, [getData, getAllStore.data])
+  const fuseEmpty = useMemo(() => {
+    const options = {
+      useExtendedSearch: true,
+      keys: [
+        "醫事機構名稱",
+        "醫事機構地址",
+        "醫事機構電話"
+      ]
+    };    
+    return new Fuse(emptyStore, options);
+  }, [emptyStore])
 
   useEffect(()=>{
     setFavoriteList([...getData.filter((item:any)=>favorite.includes(item['醫事機構代碼'])), ...emptyStore.filter((item:any)=>favorite.includes(item['醫事機構代碼']))])
@@ -126,15 +139,18 @@ export const Main = () => {
   }, [data])
 
   useEffect(() => {
-    if (getData) {
+    if (getData&& emptyStore) {
         const filter = {"keyword": keyword, "city": city}
 
       startTransition(()=>{
         let searchData;
+        let searchEmptyData;
         if (filter.keyword) {
           searchData = fuse.search(`'${filter.keyword} | ${filter.keyword}$`).map((item) => item.item)
+          searchEmptyData = fuseEmpty.search(`'${filter.keyword} | ${filter.keyword}$`).map((item) => item.item)
         } else {
-          searchData = getData
+          searchData = getData;
+          searchEmptyData = emptyStore;
         }
         const inputCount = parseInt(count)
         const filterData = searchData.filter((item:any)=>{
@@ -145,6 +161,9 @@ export const Main = () => {
         })
 
         setPositionData(filterData)
+        if(!inputCount){
+          setEmptyData(searchEmptyData)
+        }
       })
     }
   }, [getData, keyword, city, count])
@@ -163,7 +182,7 @@ export const Main = () => {
           }}
           dataLength={positionData.length}
           cityList={cityList}
-          emptyStoreLength={emptyStore.length}
+          emptyStoreLength={emptyData.length}
           setShowDialog={setShowDialog}
           setDetail={setDetail}
         />
@@ -174,7 +193,7 @@ export const Main = () => {
         <LocationMarker/>
         <LayersControl position="topright">
           <LayersControl.Overlay checked name="販售店家 / Sell Store">
-            <MapMarker sellingStore={positionData} setDetail={setDetail} setShowDialog={setShowDialog} showEmpty={showEmpty} emptyStore={emptyStore}/>
+            <MapMarker sellingStore={positionData} setDetail={setDetail} setShowDialog={setShowDialog} showEmpty={showEmpty} emptyStore={emptyData}/>
           </LayersControl.Overlay>
         </LayersControl>
         <ZoomControl position='bottomleft'/>

@@ -31,5 +31,6 @@
   "pin": "Pin",
   "unpin": "Unpin",
   "noPinned": "No Pinned Pharmacy in List.",
-  "openPermission": "Please allow [Location] permission."
+  "openPermission": "Please allow [Location] permission.",
+  "filtered": "Filtered"
 }

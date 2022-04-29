@@ -32,5 +32,6 @@
   "pin": "釘選",
   "unpin": "不釘",
   "noPinned": "尚未設定常用藥局。",
-  "openPermission": "請打開[定位]權限。"
+  "openPermission": "請打開[定位]權限。",
+  "filtered": "已篩選"
 }

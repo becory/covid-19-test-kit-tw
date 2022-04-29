@@ -79,7 +79,7 @@ export const Header: FC<HeaderProps> = (props) => {
       </div>
       <div className="gap-1 flex text-base">
         <div><FontAwesomeIcon icon={faEye}/></div>
-        <div>
+        <div>{(city||keyword||count)&&<span className="badge badge-info">{t('filtered')}</span>}
           {t('nowDisplay', {dataLength: dataLength, soldOut: emptyStoreLength})}
         </div>
       </div>
