@@ -26,6 +26,7 @@
   "latitude": "Latitude:",
   "remark": "Remark:",
   "favorite": "Pinned Pharmacy",
+  "autoUpdate": "(Auto update every 2 minutes)",
   "pin": "Pin",
   "unpin": "Unpin",
   "noPinned": "No Pinned Pharmacy in List."

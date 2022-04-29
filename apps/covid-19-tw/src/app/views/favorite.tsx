@@ -66,12 +66,15 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
                 }
           >
           <div className='flex flex-col gap-5'>
-            <div className="flex gap-2">
-              <div className="py-2">{t('legend')}</div>
-              <div className="bg-green-100 text-green-800 p-2"> &gt;= 50 </div>
-              <div className="bg-yellow-100 text-yellow-800 p-2"> &gt;= 15 </div>
-              <div className="bg-red-100 text-red-800  p-2"> &lt;  15</div>
-              <div className="bg-gray-100 text-gray-800  p-2"> 0 </div>
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <div className="py-2">{t('legend')}</div>
+                <div className="bg-green-100 text-green-800 p-2"> &gt;= 50 </div>
+                <div className="bg-yellow-100 text-yellow-800 p-2"> &gt;= 15 </div>
+                <div className="bg-red-100 text-red-800  p-2"> &lt;  15</div>
+                <div className="bg-gray-100 text-gray-800  p-2"> 0 </div>
+              </div>
+              <div className="text-right text-base">{t('autoUpdate')}</div>
             </div>
             {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} />)): <div className="text-base">{t('noPinned')}</div>}
             <div className="text-base md:p-5">
