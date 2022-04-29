@@ -140,14 +140,13 @@ export const Main = () => {
 
   useEffect(() => {
     if (getData&& emptyStore) {
-        const filter = {"keyword": keyword, "city": city}
 
       startTransition(()=>{
         let searchData;
         let searchEmptyData;
-        if (filter.keyword) {
-          searchData = fuse.search(`'${filter.keyword} | ${filter.keyword}$`).map((item) => item.item)
-          searchEmptyData = fuseEmpty.search(`'${filter.keyword} | ${filter.keyword}$`).map((item) => item.item)
+        if (keyword) {
+          searchData = fuse.search(`'${keyword} | ${keyword}$`).map((item) => item.item)
+          searchEmptyData = fuseEmpty.search(`'${keyword} | ${keyword}$`).map((item) => item.item)
         } else {
           searchData = getData;
           searchEmptyData = emptyStore;
