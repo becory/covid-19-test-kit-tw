@@ -45,20 +45,24 @@ export const Main = () => {
   const [favoriteList, setFavoriteList]= useState<any[]>([]);
 
   const [init, setInit] = useState(false);
+  const [refresh, setRefresh] = useState(0)
 
   useEffect(()=>{
     const getFavorite = localStorage.getItem('favorite')
     if(getFavorite){
       setFavorite(JSON.parse(getFavorite))
     }
-    getNHI.run()
     getAllStore.run()
     setInit(true)
+  },[])
+  
+  useEffect(()=>{
+    getNHI.run()
     const getDataInterval = setInterval(()=>{
       getNHI.run()
     }, 120000)
     return ()=>clearInterval(getDataInterval)
-  },[])
+  },[refresh])
 
   useEffect(()=>{
     if(init){
@@ -196,7 +200,7 @@ export const Main = () => {
           (detail ? (
             <Detail detail={detail} sellingStore={positionData} emptyStore={emptyStore} setShowDialog={setShowDialog} favoriteState={favoriteState}/>
           ) : (
-            <Favorite setShowDialog={setShowDialog} favoriteList={favoriteList} favoriteState={favoriteState}/>
+            <Favorite setRefresh={setRefresh} setShowDialog={setShowDialog} favoriteList={favoriteList} favoriteState={favoriteState}/>
           ))
         }
       </MapContainer>

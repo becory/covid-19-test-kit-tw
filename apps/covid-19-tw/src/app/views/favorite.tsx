@@ -1,13 +1,14 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { setColor, SidePanel } from "@covid-19-tw/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpRightFromSquare, faClock, faHeart, faInfoCircle, faMapLocation, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faClock, faHeart, faInfoCircle, faMapLocation, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {useTranslation} from "react-i18next";
 import dayjs  from "dayjs";
 import { Link } from "react-router-dom";
 
 interface FavoriteProps{
+    setRefresh: Dispatch<SetStateAction<number>>;
     setShowDialog: Dispatch<SetStateAction<boolean>>;
     favoriteList: any[];
     favoriteState: [string[], Dispatch<SetStateAction<string[]>>]
@@ -46,7 +47,7 @@ const FavoriteItem = (props:any)=>{
 }
 
 export const Favorite:FC<FavoriteProps> = (props)=>{
-    const {setShowDialog, favoriteState, favoriteList} = props;
+    const {setRefresh, setShowDialog, favoriteState, favoriteList} = props;
     const [favorite, setFavorite] = favoriteState;
     const {t, i18n} = useTranslation();
 
@@ -59,6 +60,10 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
       }));
     }
     
+    const onRefresh = ()=>{
+      setRefresh(prev=>prev+1)
+    }
+
     return (
         <SidePanel
               header={<div className='flex gap-1'><div><FontAwesomeIcon icon={faHeart} className="text-red-600"/></div><div>{t('favorite')}</div></div>}
@@ -80,7 +85,10 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
                 <div className="bg-red-100 text-red-800  p-2"> &lt;  15</div>
                 <div className="bg-gray-100 text-gray-800  p-2"> 0 </div>
               </div>
-              <div className="text-right text-base">{t('autoUpdate')}</div>
+              <div className="flex flex-col text-right">
+                <div><button className="btn btn-success btn-xs gap-2" onClick={onRefresh}><FontAwesomeIcon icon={faRotate} />{t('refresh')}</button></div>
+                <div>{t('autoUpdate')}</div>
+              </div>
             </div>
             {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} key={item['醫事機構代碼']}/>)): <div className="text-base border border-gray-300 border-solid bg-info bg-opacity-20 p-4 gap-3 flex items-center rounded-lg">
              <FontAwesomeIcon icon={faInfoCircle} />{t('noPinned')}</div>}
