@@ -86,27 +86,20 @@ export const Main = () => {
     })
   }, [getData, getAllStore.data])
 
+  const options = {
+    useExtendedSearch: true,
+    keys: [
+      "醫事機構名稱",
+      "醫事機構地址",
+      "醫事機構電話"
+    ]
+  };    
+
   const fuse = useMemo(() => {
-    const options = {
-      useExtendedSearch: true,
-      keys: [
-        "醫事機構名稱",
-        "醫事機構地址",
-        "醫事機構電話"
-      ]
-    };    
     return new Fuse(getData, options);
   }, [getData])
 
   const fuseEmpty = useMemo(() => {
-    const options = {
-      useExtendedSearch: true,
-      keys: [
-        "醫事機構名稱",
-        "醫事機構地址",
-        "醫事機構電話"
-      ]
-    };    
     return new Fuse(emptyStore, options);
   }, [emptyStore])
 
@@ -188,7 +181,7 @@ export const Main = () => {
           setDetail={setDetail}
         />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://github.com/becory/covid-19-test-kit-tw" target="_blank" rel="noreferrer">becory</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LocationMarker/>
