@@ -154,12 +154,13 @@ export const Header: FC<HeaderProps> = (props) => {
           </button>
           <button className="btn btn-info btn-sm gap-2" onClick={onCopyURL}><FontAwesomeIcon icon={faShare}/>複製篩選網址</button>
         </div>
-      </div>) : ((keyword || city ) && (<div className="alert alert-warning alert-sm">
+      </div>) : ((keyword || city || stock ) && (<div className="alert alert-warning alert-sm">
         <div>
           <FontAwesomeIcon icon={faFilter}/>
-          <b>{t('filter')}</b>
+          <b>{t('filtered')}</b>
           <div>
             <div>{keyword && `${t('keyword')}${keyword}`}</div>
+            <div>{stock && `${t('stockGte')}${stock}`}</div>
             <div>{city && `${t('city')}${city}`}</div>
           </div>
         </div>
