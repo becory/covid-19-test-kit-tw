@@ -1,7 +1,7 @@
 import {FC, Dispatch, SetStateAction, useEffect, useRef, useState, ReactNode} from "react";
 import L from 'leaflet';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFilter, faCrosshairs, faEraser, faEye, faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faFilter, faCrosshairs, faEraser, faEye, faHeart, faShare} from "@fortawesome/free-solid-svg-icons";
 import {useMap} from "react-leaflet";
 import {useSearchParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
@@ -64,6 +64,28 @@ export const Header: FC<HeaderProps> = (props) => {
     </button>
   }
   
+  const onCopyURL = ()=> {
+    const filter = []
+    if(keyword){
+      filter.push(`keyword=${keyword}`)
+    }
+    if(count){
+      filter.push(`count=${count}`)
+    }
+    if(city){
+      filter.push(`city=${keyword}`)
+    }
+    const params = filter.length>0?`?${filter.join("&")}`: ''
+    const url = `http://localhost:4200/#/${params}`
+    navigator.clipboard.writeText(url)
+        .then(() => {
+          alert(t('copied'));
+        })
+        .catch(err => {
+          alert(t('copiedError'));
+        })
+}
+  
   return (
     <div ref={divRef}
          className="absolute z-[600] top-0 bg-base-100 border-base-300 border border-solid rounded-md m-3 py-2 px-4 shadow-md flex flex-col gap-1">
@@ -124,12 +146,13 @@ export const Header: FC<HeaderProps> = (props) => {
             {cityList?.map((item, index) => <option value={item['city']} key={index}>{item['city']}{item['city_en']&&` - ${item['city_en']}`}</option>)}
           </select>)}
         </div>
-        <div className="form-control">
-          <button className='btn btn-error btn-sm' onClick={() => {
+        <div className="flex justify-between">
+          <button className='btn btn-error btn-sm gap-2' onClick={() => {
             setKeyword('')
             setSearchParams({}, {replace: true})
           }}><FontAwesomeIcon icon={faEraser}/> {t('resetFilter')}
           </button>
+          <button className="btn btn-info btn-sm gap-2" onClick={onCopyURL}><FontAwesomeIcon icon={faShare}/>複製篩選網址</button>
         </div>
       </div>) : ((keyword || city ) && (<div className="alert alert-warning alert-sm">
         <div>

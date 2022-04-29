@@ -33,5 +33,7 @@
   "unpin": "不釘",
   "noPinned": "尚未設定常用藥局。",
   "openPermission": "請打開[定位]權限。",
-  "filtered": "已篩選"
+  "filtered": "已篩選",
+  "copied": "已複製",
+  "copiedError": "複製失敗"
 }

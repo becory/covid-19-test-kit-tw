@@ -32,5 +32,7 @@
   "unpin": "Unpin",
   "noPinned": "No Pinned Pharmacy in List.",
   "openPermission": "Please allow [Location] permission.",
-  "filtered": "Filtered"
+  "filtered": "Filtered",
+  "copied": "Copied",
+  "copiedError": "Copied Error"
 }
