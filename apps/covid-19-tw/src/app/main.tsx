@@ -112,7 +112,6 @@ export const Main = () => {
   },[getData, emptyStore, favorite])
 
   useEffect(() => {
-    document.title = t('title');
     if(i18n.language==='zh-TW'||i18n.language==='zh'){
       dayjs.locale(locale)
     }else{
