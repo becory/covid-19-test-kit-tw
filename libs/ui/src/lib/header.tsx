@@ -76,7 +76,7 @@ export const Header: FC<HeaderProps> = (props) => {
       filter.push(`city=${keyword}`)
     }
     const params = filter.length>0?`?${filter.join("&")}`: ''
-    const url = `http://localhost:4200/#/${params}`
+    const url = `https://becory.github.io/covid-19-test-kit-tw/#/${params}`
     navigator.clipboard.writeText(url)
         .then(() => {
           alert(t('copied'));
