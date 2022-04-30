@@ -26,7 +26,7 @@ const FavoriteItem = (props:any)=>{
 
   return (<div className={[`bg-${color}-100`,"flex border border-solid rounded-md shadow-sm divide-black text-black"].join(" ")}>
   <h2 className="flex p-3 text-2xl font-bold w-[3.5rem] items-center align-middle text-center justify-center">
-    {item?.[`快篩試劑截至目前結餘存貨數量`] || '1000'}
+    {item?.[`快篩試劑截至目前結餘存貨數量`] || '0'}
   </h2>
   <div className="flex flex-col grow border-l-2 border-solid border-black p-2">
     <h3 className="flex text-base font-bold gap-2 py-1">{item?.[`醫事機構名稱`] && <Link
