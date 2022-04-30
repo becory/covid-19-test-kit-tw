@@ -1,5 +1,5 @@
 {
-  "title": "Taiwan COVID-19 Test Kit Map",
+  "title": "Taiwan COVID-19 Home Test Kit Map",
   "nowDisplay": "{{dataLength}} pharmacy selling, {{soldOut}} sold out.",
   "displaySoldOut": "Display sold out pharmacy.",
   "show": "Current Display.",

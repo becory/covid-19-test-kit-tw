@@ -1,5 +1,5 @@
 {
-  "title": "臺灣COVID-19快篩試劑地圖",
+  "title": "臺灣COVID-19家用快篩地圖",
   "nowDisplay": "{{dataLength}}間藥局販售中，{{soldOut}}間已售完。",
   "displaySoldOut": "顯示完售藥局",
   "show": "目前顯示",
