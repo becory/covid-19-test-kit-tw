@@ -14,7 +14,7 @@ import { LatLng } from 'leaflet';
 export const Main = () => {
   const {data, loading} = useCityData(["city"])
   const getNHI = useFetch(()=>axios.get('https://data.nhi.gov.tw/resource/Nhi_Fst/Fstdata.csv'))
-  const getAllStore = useFetch(()=>axios.get('https://becory.github.io/covid-19-test-kit-tw-data/all.csv'))
+  const getAllStore = useFetch(()=>axios.get('https://becory.github.io/covid-19-test-kit-data/all.csv'))
   const [searchParams] = useSearchParams()
   const [positionData, setPositionData] = useState<any[]>([])
   const [getData, setGetData] = useState<any[]>([])
