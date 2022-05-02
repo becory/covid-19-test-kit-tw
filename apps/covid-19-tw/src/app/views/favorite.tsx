@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { setColor, SidePanel } from "@covid-19-tw/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpRightFromSquare, faClock, faHeart, faInfoCircle, faMapLocation, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faClock, faHeart, faInfoCircle, faMapLocation, faRotate, faShare, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {useTranslation} from "react-i18next";
 import dayjs  from "dayjs";
@@ -30,7 +30,7 @@ const FavoriteItem = (props:any)=>{
   </h2>
   <div className="flex flex-col grow border-l-2 border-solid border-black p-2">
     <h3 className="flex text-base font-bold gap-2 py-1">{item?.[`醫事機構名稱`] && <Link
-                      to={`?keyword=${item?.[`醫事機構名稱`].trim()}`} className="flex" key={`keyword_${item?.[`醫事機構名稱`]}`}>{item?.[`醫事機構名稱`].trim()}</Link>} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/> 導航 </button> </h3>
+                      to={`?keyword=${item?.[`醫事機構名稱`].trim()}`} className="flex" key={`keyword_${item?.[`醫事機構名稱`]}`}>{item?.[`醫事機構名稱`].trim()}</Link>} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/>{t('navigation')}</button> </h3>
     <div className="flex justify-between items-center">
       <div className={"flex grow flex-col text-ellipsis"}>
         <p className="gap-2">{item?.[`醫事機構地址`]}</p>
@@ -64,6 +64,18 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
       setRefresh(prev=>prev+1)
     }
 
+    const onCopyURL = ()=> {
+      const params = `?favorite=${favorite.join(',')}`
+      const url = `https://becory.github.io/covid-19-test-kit-tw/#/${params}`
+      navigator.clipboard.writeText(url)
+          .then(() => {
+            alert(t('copied'));
+          })
+          .catch(err => {
+            alert(t('copiedError'));
+          })
+    }
+
     return (
         <SidePanel
               header={<div className='flex gap-1'><div><FontAwesomeIcon icon={faHeart} className="text-red-600"/></div><div>{t('favorite')}</div></div>}
@@ -76,7 +88,7 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
                 </button>
                 }
           >
-          <div className='flex flex-col gap-5'>
+          <div className='flex flex-col gap-3'>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <div className="py-2">{t('legend')}</div>
@@ -90,6 +102,9 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
                 <div>{t('autoUpdate')}</div>
               </div>
             </div>
+            {favoriteList.length>0&&<div>
+              <button className="btn btn-info btn-xs gap-2" onClick={onCopyURL}><FontAwesomeIcon icon={faShare}/>{t('copyPinnedLink')}</button>
+            </div>}
             {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} key={item['醫事機構代碼']}/>)): <div className="text-base border border-gray-300 border-solid bg-info bg-opacity-20 p-4 gap-3 flex items-center rounded-lg">
              <FontAwesomeIcon icon={faInfoCircle} />{t('noPinned')}</div>}
              <a className="gap-2 text-base flex items-center mx-5 my-2" href={ruleI18nURL} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faArrowUpRightFromSquare}/>{t('rule')}</a>

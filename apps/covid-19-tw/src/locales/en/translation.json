@@ -33,9 +33,13 @@
   "noPinned": "No Pinned Pharmacy in List.",
   "openPermission": "Please allow [Location] permission.",
   "filtered": "Filtered",
-  "copied": "Copied",
+  "copied": "Share Link is Copied! You can share the link to everyone.",
   "copiedError": "Copied Error",
   "rule": "Name-based rationing system for at-home COVID-19 test kits (CDC)",
   "locate": "You are Here",
-  "refresh": "Refresh"
+  "refresh": "Refresh",
+  "copyFilterLink": "Share Filter Link",
+  "copyStoreLink": "Share This Pinned Pharmacy Link",
+  "navigationOnMap": "Navigation on google maps",
+  "navigation": "Navigation"
 }

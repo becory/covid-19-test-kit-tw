@@ -84,7 +84,7 @@ export const Header: FC<HeaderProps> = (props) => {
         .catch(err => {
           alert(t('copiedError'));
         })
-}
+  }
   
   return (
     <div ref={divRef}
@@ -152,7 +152,7 @@ export const Header: FC<HeaderProps> = (props) => {
             setSearchParams({}, {replace: true})
           }}><FontAwesomeIcon icon={faEraser}/> {t('resetFilter')}
           </button>
-          <button className="btn btn-info btn-sm gap-2" onClick={onCopyURL}><FontAwesomeIcon icon={faShare}/>複製篩選網址</button>
+          <button className="btn btn-info btn-sm gap-2" onClick={onCopyURL}><FontAwesomeIcon icon={faShare}/>{t('copyFilterLink')}</button>
         </div>
       </div>) : ((keyword || city || stock ) && (<div className="alert alert-warning alert-sm">
         <div>

@@ -90,6 +90,19 @@ export const Main = () => {
     })
   }, [getData, getAllStore.data])
 
+  useEffect(()=>{
+    const favorite_list = searchParams.get('favorite') || '' 
+    if(favorite_list){
+      const favorites = favorite_list.split(',')
+      for(const favo of favorites){
+        const store = getAllStore.data.find((item:any)=> item['醫事機構代碼']===favo)
+        if(store?.['醫事機構代碼']){
+          setFavorite(prev => [...prev, store?.['醫事機構代碼']]);
+        }
+      }
+    }
+  }, [searchParams, emptyStore])
+
   const options = {
     useExtendedSearch: true,
     keys: [

@@ -6,6 +6,7 @@ import {
   faDatabase,
   faHeart as faHeartSolid,
   faMapLocation,
+  faShare,
   faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -47,6 +48,18 @@ export const Detail: FC<DetailProps> = (props) => {
 
   const onOpenGoogleMap = ()=>{
     window.open(`https://www.google.com.tw/maps/search/${detail?.[`醫事機構地址`]}`, "_blank")
+  }
+
+  const onCopyURL = ()=> {
+    const params = `?favorite=${detail?.['醫事機構代碼']}`
+    const url = `https://becory.github.io/covid-19-test-kit-tw/#/${params}`
+    navigator.clipboard.writeText(url)
+        .then(() => {
+          alert(t('copied'));
+        })
+        .catch(err => {
+          alert(t('copiedError'));
+        })
   }
 
   //(?<zipcode>(^\d{5}|^\d{3})?)(?<city>\D+[縣市])(?<district>\D+?(市區|鎮區|鎮市|[鄉鎮市區]))(?<others>.+)
@@ -91,8 +104,13 @@ export const Detail: FC<DetailProps> = (props) => {
                 <a href={`tel:${detail?.[`醫事機構電話`]}`}>{detail?.[`醫事機構電話`]}</a></div>
               </div>
               <div><b>{t('storeNo')}</b>
-                <div className='ml-4 flex flex-wrap gap-1'>
-                  {detail?.['醫事機構代碼']}
+                <div className='ml-4 flex gap-1'>
+                    <div className="flex">
+                    {detail?.['醫事機構代碼']}
+                    </div>
+                    <div className="flex">
+                      <button className="btn btn-info btn-xs gap-2" onClick={onCopyURL}><FontAwesomeIcon icon={faShare}/>{t('copyStoreLink')}</button>
+                    </div>
                   </div>
               </div>
               <div className='col-span-2'><b>{t("address")}</b>
@@ -102,8 +120,8 @@ export const Detail: FC<DetailProps> = (props) => {
                     <Link 
                       to={`?keyword=${address[0].trim()}${address[1].trim()}`} key={`address`}>{address?.[0].trim()}{address?.[1].trim()}</Link>{address?.[3].trim()}
                   </div>
-                  <div>
-                    <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-sm"><FontAwesomeIcon icon={faMapLocation}/> 從Google Map開啟 </button>  
+                  <div className="ml-4">
+                    <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-sm"><FontAwesomeIcon icon={faMapLocation}/>{t('navigationOnMap')}</button>  
                   </div>
                 </>)}
               </div>

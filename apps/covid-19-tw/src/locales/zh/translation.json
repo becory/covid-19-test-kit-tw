@@ -34,9 +34,14 @@
   "noPinned": "尚未設定常用藥局。",
   "openPermission": "請打開[定位]權限。",
   "filtered": "已篩選",
-  "copied": "已複製",
+  "copied": "已複製分享連結，您可以分享給其他人。",
   "copiedError": "複製失敗",
   "rule": "實名制快篩規則（疾管署）",
   "locate": "您的位置",
-  "refresh": "重新整理"
+  "refresh": "重新整理",
+  "copyFilterLink": "分享篩選連結",
+  "copyStoreLink": "分享常用藥局連結",
+  "navigationOnMap": "從Google Map導航",
+  "navigation": "導航",
+  "copyPinnedLink": "分享常用藥局清單"
 }
