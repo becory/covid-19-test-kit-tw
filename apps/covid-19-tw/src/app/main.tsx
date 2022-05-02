@@ -96,7 +96,8 @@ export const Main = () => {
       const favorites = favorite_list.split(',')
       for(const favo of favorites){
         const store = getAllStore.data.find((item:any)=> item['醫事機構代碼']===favo)
-        if(store?.['醫事機構代碼']){
+        const user_favorites = favorite.find((item:any)=> item===favo)
+        if(store?.['醫事機構代碼']&&!user_favorites){
           setFavorite(prev => [...prev, store?.['醫事機構代碼']]);
         }
       }
