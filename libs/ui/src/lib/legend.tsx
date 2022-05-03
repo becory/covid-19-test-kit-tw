@@ -11,7 +11,7 @@ export const Legend:FC<LegendProps> = (props)=> {
   const {updateTime} = props;
   const {t, i18n} = useTranslation();
   return (
-  <div className='absolute z-[500] w-fit rounded-md bg-base-200 border-gray-500 border border-solid left-none right-0 bottom-4 m-3 mb-6 md:left-10 md:right-none md:bottom-0 md:mb-3 py-2 px-4'>
+  <div className='absolute z-[500] w-fit rounded-md bg-base-200 border-gray-500 border border-solid left-none right-0 bottom-4 m-2 mb-2 md:left-10 md:right-none md:bottom-0 md:mb-3 py-2 px-4'>
     <h3 className='text-lg text-bold'>{t("legend")}</h3>
     <ul className="flex gap-2">
       <li>{t("quantity")}</li>

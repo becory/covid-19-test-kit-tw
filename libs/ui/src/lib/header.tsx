@@ -89,7 +89,7 @@ export const Header: FC<HeaderProps> = (props) => {
   return (
     <div ref={divRef}
          className="absolute z-[600] top-0 bg-base-100 border-base-300 border border-solid rounded-md m-3 py-2 px-4 shadow-md flex flex-col gap-1">
-      <h1 className="text-xl font-bold select-none text-base-content py-1">{t('title')}</h1>
+      <h1 className="text-lg md:text-xl font-bold select-none text-base-content py-1">{t('title')}</h1>
       <div className="flex justify-between">
       <div className="btn-group">
         <button className={["btn btn-xs", (i18n.language==='zh'||i18n.language==='zh-TW')&&'btn-active'].join(' ')} onClick={()=>changeLanguage('zh')}>中文</button>
@@ -99,16 +99,10 @@ export const Header: FC<HeaderProps> = (props) => {
         <button className="btn btn-xs btn-info gap-2" onClick={()=>{setShowDialog(true); setDetail(null)}}><FontAwesomeIcon icon={faHeart} className="text-red-600"/> {t('favorite')}</button>
       </div>
       </div>
-      <div className="gap-1 flex text-base">
+      <div className="gap-1 flex text-sm md:text-base">
         <div><FontAwesomeIcon icon={faEye}/></div>
         <div>{(city||keyword||stock)&&<span className="badge badge-info">{t('filtered')}</span>}
           {t('nowDisplay', {dataLength: dataLength, soldOut: emptyStoreLength})}
-        </div>
-      </div>
-      <div className="gap-1 flex text-base">
-        <div><input type="checkbox" checked={showEmpty} onChange={(e)=>setShowEmpty(e.target.checked)} className="checkbox checkbox-primary checkbox-sm" /></div>
-        <div>
-          {t('displaySoldOut')}
         </div>
       </div>
       <div className="w-full flex justify-between text-xs">
@@ -118,28 +112,34 @@ export const Header: FC<HeaderProps> = (props) => {
         </button>
         <GetCurrentLocationBtn/>
       </div>
-      {openFilter ? (<div className="flex flex-col gap-2">
+      {openFilter ? (<div className="flex flex-col gap-1 md:gap-2">
+        <div className="form-control w-full max-w-xs inline-block items-middle align-middle">
+          <input type="checkbox" name="empty" id="empty" checked={showEmpty} onChange={(e)=>setShowEmpty(e.target.checked)} className="checkbox checkbox-primary checkbox-sm inline-block" />
+          <label className="label inline-block" htmlFor="empty">
+            <span className="label-text">{t('displaySoldOut')}</span>
+          </label>
+        </div>
         <div className="form-control w-full max-w-xs">
-          <label className="label">
+          <label className="label" htmlFor="keyword">
             <span className="label-text">{t("keyword")}</span>
           </label>
-          <input className="input input-primary input-sm" value={keyword} onChange={(e: any) => {
+          <input className="input input-primary input-sm" id="keyword" name="keyword" value={keyword} onChange={(e: any) => {
             setKeyword(e.target.value)
           }}/>
         </div>
         <div className="form-control w-full max-w-xs">
-          <label className="label">
+          <label className="label" htmlFor="stock">
             <span className="label-text">{t("stockGte")}</span>
           </label>
-          <input className="input input-primary input-sm" type="number" value={stock} onChange={(e: any) => {
+          <input className="input input-primary input-sm" id="stock" name="stock" type="number" value={stock} onChange={(e: any) => {
             setStock(e.target.value)
           }}/>
         </div>
         <div className="form-control w-full max-w-xs">
-          <label className="label">
+          <label className="label" htmlFor="city">
             <span className="label-text">{t('city')}</span>
           </label>
-          {(<select value={city} onChange={(e: any) => {
+          {(<select id="city" name="city" value={city} onChange={(e: any) => {
             setKeyword(e.target.value)
             setCity(e.target.value)
           }} className="select select-primary select-sm max-w-xs">
