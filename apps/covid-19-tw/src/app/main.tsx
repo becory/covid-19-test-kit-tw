@@ -34,7 +34,7 @@ export const Main = () => {
   const [stock, setStock] = stockState;
 
   const showEmptyState = useState<boolean>(false)
-  const [showEmpty,] = showEmptyState;
+  const [showEmpty, setShowEmpty] = showEmptyState;
 
   const {t, i18n} = useTranslation()
 
@@ -137,9 +137,11 @@ export const Main = () => {
     const getKeyword = searchParams.get('keyword') || ''
     const getCity = searchParams.get('city') || ''
     const getStock = searchParams.get('stock') || ''
+    const getShowEmpty = searchParams.get('soldOut')==='true' || false
     setKeyword(getKeyword)
     setCity(getCity)
     setStock(getStock)
+    setShowEmpty(getShowEmpty)
   }, [searchParams])
 
   useEffect(() => {
@@ -177,7 +179,7 @@ export const Main = () => {
         }
       })
     }
-  }, [getData, keyword, city, stock])
+  }, [getData, keyword, city, stock, showEmpty])
 
   return (
     <div className="relative select-none">

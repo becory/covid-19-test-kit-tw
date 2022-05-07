@@ -5,7 +5,9 @@ import { faArrowUpRightFromSquare, faClock, faHeart, faInfoCircle, faMapLocation
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {useTranslation} from "react-i18next";
 import dayjs  from "dayjs";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useMap } from "react-leaflet";
+import { LatLng } from "leaflet";
 
 interface FavoriteProps{
     setRefresh: Dispatch<SetStateAction<number>>;
@@ -17,6 +19,13 @@ interface FavoriteProps{
 const FavoriteItem = (props:any)=>{
   const {item, onHeartClick} =props;
   const {t, i18n} = useTranslation();
+  const navigate = useNavigate();
+  const map = useMap();
+
+  const onClickName = ()=>{
+    navigate(`?keyword=${item?.[`醫事機構名稱`].trim()}&soldOut=true`, {replace: true});
+    map.flyTo(new LatLng(item['緯度'],item['經度']), 12)
+  }
 
   const color = setColor(item['快篩試劑截至目前結餘存貨數量'])
 
@@ -29,8 +38,7 @@ const FavoriteItem = (props:any)=>{
     {item?.[`快篩試劑截至目前結餘存貨數量`] || '0'}
   </h2>
   <div className="flex flex-col grow border-l-2 border-solid border-black p-2">
-    <h3 className="flex text-base font-bold gap-2 py-1">{item?.[`醫事機構名稱`] && <Link
-                      to={`?keyword=${item?.[`醫事機構名稱`].trim()}`} className="flex" key={`keyword_${item?.[`醫事機構名稱`]}`}>{item?.[`醫事機構名稱`].trim()}</Link>} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/>{t('navigation')}</button> </h3>
+    <h3 className="flex text-base font-bold gap-2 py-1">{item?.[`醫事機構名稱`] && <button onClick={onClickName} className="link link-hover text-sky-600 font-bold" key={`keyword_${item?.[`醫事機構名稱`]}`}>{item?.[`醫事機構名稱`].trim()}</button>} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/>{t('navigation')}</button> </h3>
     <div className="flex justify-between items-center">
       <div className={"flex grow flex-col text-ellipsis"}>
         <p className="gap-2">{item?.[`醫事機構地址`]}</p>
