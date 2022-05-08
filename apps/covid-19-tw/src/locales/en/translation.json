@@ -41,5 +41,9 @@
   "copyFilterLink": "Share Filter Link",
   "copyStoreLink": "Share This Pinned Pharmacy Link",
   "navigationOnMap": "Navigation on google maps",
-  "navigation": "Navigation"
+  "navigation": "Navigation",
+  "copyPinnedLink": "Share Pinned List",
+  "selling": "Detect stock changed today (maybe already on sale)",
+  "noSale": "No stock change today (maybe not yet on sale)",
+  "update": "(Update in {{day}})"
 }

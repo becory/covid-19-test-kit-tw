@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState, useTransition} from 'react';
 import {useCityData, useFetch} from '@covid-19-tw/database'
-import {LayersControl, MapContainer, TileLayer, useMapEvents, ZoomControl} from 'react-leaflet'
+import {LayersControl, MapContainer, TileLayer, ZoomControl} from 'react-leaflet'
 import {Loading, Header, Legend, LocationMarker, MapMarker} from '@covid-19-tw/ui'
 import dayjs from 'dayjs'
 import {Detail, Favorite} from './views';
@@ -14,7 +14,8 @@ import { LatLng } from 'leaflet';
 export const Main = () => {
   const {data, loading} = useCityData(["city"])
   const getNHI = useFetch(()=>axios.get('https://data.nhi.gov.tw/resource/Nhi_Fst/Fstdata.csv'))
-  const getAllStore = useFetch(()=>axios.get('https://raw.githubusercontent.com/becory/covid-19-test-kit-data/data/all.csv'))
+  const getAllStore = useFetch(()=>axios.get('https://raw.githubusercontent.com/becory/covid-19-test-kit-data/data/all.csv',{params: {update:Date.now()}}))
+  const getStatus = useFetch(()=>axios.get('https://raw.githubusercontent.com/becory/covid-19-test-kit-data/data/status.csv',{params: {update:Date.now()}}))
   const [searchParams] = useSearchParams()
   const [positionData, setPositionData] = useState<any[]>([])
   const [getData, setGetData] = useState<any[]>([])
@@ -52,9 +53,18 @@ export const Main = () => {
     if(getFavorite){
       setFavorite(JSON.parse(getFavorite))
     }
-    getAllStore.run()
     setInit(true)
   },[])
+
+  useEffect(()=>{
+    getAllStore.run()
+    getStatus.run()
+    const getDataInterval = setInterval(()=>{
+      getAllStore.run()
+      getStatus.run()
+    }, 300000)
+    return ()=>clearInterval(getDataInterval)
+  },[refresh])
   
   useEffect(()=>{
     getNHI.run()
@@ -75,6 +85,7 @@ export const Main = () => {
       detail['position'] = new LatLng(detail['緯度'], detail['經度'])
       detail['來源資料時間']= dayjs(detail['來源資料時間'])
       detail[`快篩試劑截至目前結餘存貨數量`] = parseInt(detail[`快篩試劑截至目前結餘存貨數量`])
+      detail[`開賣`] = '1'
       return detail
     })
     setGetData(dataFormat) 
@@ -89,6 +100,10 @@ export const Main = () => {
       return detail
     })
   }, [getData, getAllStore.data])
+
+  const statusTime = useMemo(()=>{
+    return dayjs().to(getStatus.data[0]?.['update_time'])
+  }, [getStatus.data])
 
   useEffect(()=>{
     const favorite_list = searchParams.get('favorite') || '' 
@@ -213,9 +228,9 @@ export const Main = () => {
         <Legend updateTime={updateTime}/>
         {showDialog &&
           (detail ? (
-            <Detail detail={detail} sellingStore={positionData} emptyStore={emptyStore} setShowDialog={setShowDialog} favoriteState={favoriteState}/>
+            <Detail detail={detail} sellingStore={positionData} emptyStore={emptyStore} setShowDialog={setShowDialog} favoriteState={favoriteState} statusTime={statusTime}/>
           ) : (
-            <Favorite setRefresh={setRefresh} setShowDialog={setShowDialog} favoriteList={favoriteList} favoriteState={favoriteState}/>
+            <Favorite setRefresh={setRefresh} setShowDialog={setShowDialog} favoriteList={favoriteList} favoriteState={favoriteState} statusTime={statusTime}/>
           ))
         }
       </MapContainer>

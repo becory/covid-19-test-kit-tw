@@ -1,5 +1,5 @@
 import {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
-import {SidePanel} from "@covid-19-tw/ui";
+import {SidePanel, Status} from "@covid-19-tw/ui";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   faClock,
@@ -22,10 +22,11 @@ interface DetailProps {
   sellingStore:any;
   setShowDialog: Dispatch<SetStateAction<boolean>>;
   favoriteState: [string[], Dispatch<SetStateAction<string[]>>]
+  statusTime: any;
 }
 
 export const Detail: FC<DetailProps> = (props) => {
-  const {detail:id, emptyStore, sellingStore, setShowDialog, favoriteState} = props;
+  const {detail:id, emptyStore, sellingStore, setShowDialog, favoriteState, statusTime} = props;
   const [favorite, setFavorite] = favoriteState;
 
   const {t, i18n} = useTranslation();
@@ -89,9 +90,12 @@ export const Detail: FC<DetailProps> = (props) => {
             <button className="btn btn-error btn-outline gap-2" onClick={onHeartClick}><FontAwesomeIcon icon={isPined? faHeartSolid:faHeart} size="2x" className="text-red"/> {t(isPined? 'unpin':'pin')}</button>
           </div>
           <div className="flex flex-col p-5 gap-2">
-            <div className="text-xs text-right">
-              <FontAwesomeIcon icon={faDatabase}/> {t("source")}<a href="https://data.nhi.gov.tw/Datasets/DatasetDetail.aspx?id=698"
-                                                                   target="_blank" rel="noreferrer">{t('NHI')}</a>
+            <div className="flex justify-between items-center">
+              <Status status={detail?.['開賣']==='1'} statusTime={statusTime}/>
+              <div className="text-xs text-right">
+                <FontAwesomeIcon icon={faDatabase}/> {t("source")}<a href="https://data.nhi.gov.tw/Datasets/DatasetDetail.aspx?id=698"
+                                                                    target="_blank" rel="noreferrer">{t('NHI')}</a>
+              </div>
             </div>
             <div className="text-base grid grid-cols-2 gap-2">
               <div><b>{t('storeName')}</b>
