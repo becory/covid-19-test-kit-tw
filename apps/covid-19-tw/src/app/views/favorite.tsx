@@ -1,9 +1,9 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import { setColor, SidePanel, Status } from "@covid-19-tw/ui";
+import { setColor, SidePanel } from "@covid-19-tw/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpRightFromSquare, faClock, faEdit, faHeart, faInfoCircle, faMapLocation, faRotate, faShare, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faClock, faHeart, faInfoCircle, faMapLocation, faRotate, faShare, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import dayjs  from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useMap } from "react-leaflet";
@@ -14,11 +14,10 @@ interface FavoriteProps{
     setShowDialog: Dispatch<SetStateAction<boolean>>;
     favoriteList: any[];
     favoriteState: [string[], Dispatch<SetStateAction<string[]>>]
-    statusTime: any;
 }
 
 const FavoriteItem = (props:any)=>{
-  const {item, onHeartClick, statusTime} =props;
+  const {item, onHeartClick} =props;
   const {t, i18n} = useTranslation();
   const navigate = useNavigate();
   const map = useMap();
@@ -35,26 +34,19 @@ const FavoriteItem = (props:any)=>{
   }
 
   return (<div className={[`bg-${color}-100`,"flex border border-solid rounded-md shadow-sm divide-black text-black"].join(" ")}>
-  <h2 className="flex grow-0 shrink-0 p-3 text-2xl font-bold w-[3.5rem] items-center align-middle text-center justify-center">
+  <h2 className="flex p-3 text-2xl font-bold w-[3.5rem] items-center align-middle text-center justify-center">
     {item?.[`快篩試劑截至目前結餘存貨數量`] || '0'}
   </h2>
-  <div className="flex flex-col grow shrink border-l-2 border-solid border-black p-2 overflow-y-hidden">
+  <div className="flex flex-col grow border-l-2 border-solid border-black p-2">
     <h3 className="flex text-base font-bold gap-2 py-1">{item?.[`醫事機構名稱`] && <button onClick={onClickName} className="link link-hover text-sky-600 font-bold" key={`keyword_${item?.[`醫事機構名稱`]}`}>{item?.[`醫事機構名稱`].trim()}</button>} <button onClick={onOpenGoogleMap} className="btn btn-info gap-2 btn-xs"><FontAwesomeIcon icon={faMapLocation}/>{t('navigation')}</button> </h3>
     <div className="flex justify-between items-center">
-      <div className="flex flex-col min-w-0 truncate">
-        <Status status={item?.['開賣']==='1'} statusTime={statusTime}/>
+      <div className={"flex grow flex-col text-ellipsis"}>
         <p className="gap-2">{item?.[`醫事機構地址`]}</p>
         <a href={`tel:${item?.[`醫事機構電話`]}`}>{item?.[`醫事機構電話`]}</a>
-        <div className="flex gap-1 min-w-0">
-          <div><FontAwesomeIcon icon={faClock} className="text-info"/></div>
-          <div>{item?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(item?.['來源資料時間']), stock: item?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</div>
-        </div>
-        <div className="flex gap-1 min-w-0">
-          <div><FontAwesomeIcon icon={faEdit} className="text-info"/></div>
-          <div className="whitespace-normal">{t('remark')}{item?.[`備註`]}</div>
-        </div>
+        <p className="gap-2"><FontAwesomeIcon icon={faClock} className="text-info"/> 
+                {item?.['來源資料時間']?(t('daysAgo', {day:dayjs().to(item?.['來源資料時間']), stock: item?.[`快篩試劑截至目前結餘存貨數量`]})): t('soldOut')}</p>
       </div>
-      <div className="flex grow-0 shrink-0 justify-center items-center align-middle p-2">
+      <div className="flex justify-center items-center align-middle p-2">
         <button className="btn btn-error btn-outline gap-2" onClick={()=>onHeartClick(item['醫事機構代碼'])}><FontAwesomeIcon icon={faHeart} size="2x" className="text-red"/></button>
       </div>
     </div>
@@ -63,7 +55,7 @@ const FavoriteItem = (props:any)=>{
 }
 
 export const Favorite:FC<FavoriteProps> = (props)=>{
-    const {setRefresh, setShowDialog, favoriteState, favoriteList, statusTime} = props;
+    const {setRefresh, setShowDialog, favoriteState, favoriteList} = props;
     const [favorite, setFavorite] = favoriteState;
     const {t, i18n} = useTranslation();
 
@@ -121,7 +113,7 @@ export const Favorite:FC<FavoriteProps> = (props)=>{
             {favoriteList.length>0&&<div>
               <button className="btn btn-info btn-xs gap-2" onClick={onCopyURL}><FontAwesomeIcon icon={faShare}/>{t('copyPinnedLink')}</button>
             </div>}
-            {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} key={item['醫事機構代碼']} statusTime={statusTime}/>)): <div className="text-base border border-gray-300 border-solid bg-info bg-opacity-20 p-4 gap-3 flex items-center rounded-lg">
+            {favoriteList.length>0? favoriteList.map(item=>(<FavoriteItem item={item} onHeartClick={onHeartClick} key={item['醫事機構代碼']}/>)): <div className="text-base border border-gray-300 border-solid bg-info bg-opacity-20 p-4 gap-3 flex items-center rounded-lg">
              <FontAwesomeIcon icon={faInfoCircle} />{t('noPinned')}</div>}
              <a className="gap-2 text-base flex items-center mx-5 my-2" href={ruleI18nURL} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faArrowUpRightFromSquare}/>{t('rule')}</a>
             <div className="text-base md:p-5">

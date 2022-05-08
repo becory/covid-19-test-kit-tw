@@ -43,8 +43,5 @@
   "copyStoreLink": "分享常用藥局連結",
   "navigationOnMap": "從Google Map導航",
   "navigation": "導航",
-  "copyPinnedLink": "分享常用藥局清單",
-  "selling": "今日庫存有變動（可能開賣）",
-  "noSale": "今日庫存無變動（可能尚未開賣）",
-  "update": "({{day}}更新狀態)"
+  "copyPinnedLink": "分享常用藥局清單"
 }
